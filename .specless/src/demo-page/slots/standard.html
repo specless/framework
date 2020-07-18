@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Demo Ad Slot</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript" src="https://worker.specless.app/1/dynamic/start"></script>
+    <script type="text/javascript">
+        const getUrlVars = () => {
+            var vars = {};
+            var parts = document.referrer.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        };
+        const placementBuild = getUrlVars()['sp[placementBuild]'];
+        const config = {
+          startTime: performance.now(),
+          env: {
+            mode: 'development'
+          },
+          macros: {
+            adServer: 'custom',
+            isPreview: true
+          }
+        };
+        const settings = {
+          useParentWindowForTop: true,
+          hideIndicator: true
+        };
+        if (placementBuild === 'local') {
+          fetch('data.default.json').then((res) => {
+            res.json().then((data) => {
+              config.placementData = data;
+              run('sp', config, settings);
+            })
+          })
+        } else {
+          run('sp', config, settings);
+        }
+		</script>
+  </body>
+</html>

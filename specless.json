@@ -1,0 +1,8 @@
+{
+    "projectType": "template",
+    "devPort": 3030,
+    "openBrowserOnLaunch": false,
+    "libraryBuild": null,
+    "speclessServer": "https://worker.specless.app/1",
+    "csfUrl": "https://worker.specless.app/1/csf/1585092194639/csf.remote.mjs"
+}

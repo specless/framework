@@ -1,0 +1,9 @@
+const settings = require('./../../../specless.json');
+const buildId = require('./../../../.specless.build.json').id;
+export const LIBRARY_BUILD = settings.libraryBuild;
+export const BUILD_ID = LIBRARY_BUILD || buildId;
+export const LIBRARY_ROOT = settings.libraryRoot;
+export const CSF_URL = settings.csfUrl;
+export const SPECLESS_SERVER_ROOT = settings.speclessServer;
+export const PROJECT_TYPE = settings.projectType;
+export const PROJECT_NAME = settings.projectName;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Demo Page</title>
+    <base href="./../assets/"/>
+    <link href="https://specless.app/fonts/blokkfont.css" rel="stylesheet" type="text/css">
+    <style>
+        .sidebar {
+            background-color: transparent !important;
+            /* border-right: 1px solid rgba(0,0,0,0.1);
+            border-left: 1px solid rgba(0,0,0,0.1); */
+        }
+
+        .font-loader {
+            font-family: 'BLOKK' !important;
+        }
+
+        .sidebar > div {
+            padding: 10px;
+        }
+
+        .header {
+            background-color: white !important;
+            font-family: 'BLOKK' !important;
+            color: rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            padding: 24px;
+        }
+
+        .dummy {
+            font-family: 'BLOKK';
+            color: rgba(0,0,0,0.1) !important;
+        }
+
+        .dummy-image {
+            filter: grayscale(100);
+            opacity: 0.3;
+            border-radius: 8px;
+        }
+
+        .content {
+            margin: 0 auto;
+            background-color: transparent;
+            padding-top: 24px;
+        }
+
+        .dummy-title {
+            font-family: 'BLOKK';
+            color: rgba(0,0,0,0.15) !important;
+        }
+
+        .wrapper {
+            background-color: white !important;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .sidebar {
+                display: none !important
+            }
+
+            .section {
+                padding: 24px 12px;
+            }
+        }
+
+        @media only screen and (max-width: 640px) {
+            .header {
+                padding: 0 12px !important;
+            }
+
+            .header .ant-menu {
+                display: none;
+            }
+        }
+
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div class="font-loader"></div>
+    <script src="vendor.base.js"></script>
+    <script src="vendor.host.js"></script>
+    <script src="vendor.boot.js"></script>
+    <script src="{{js}}"></script>
+  </body>
+</html>

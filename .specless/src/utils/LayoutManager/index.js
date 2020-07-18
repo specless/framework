@@ -1,0 +1,20 @@
+module.exports = {
+    aspectDistance: require('./aspect/distance'),
+    aspectSimilarity: require('./aspect/similarity'),
+    aspectClamp: require('./aspect/clamp'),
+    closest: require('./closest'),
+    constants: require('./constants'),
+    create: require('./create'),
+    max: require('./max'),
+    min: require('./min'),
+    range: require('./range'),
+    scale: require('./scale'),
+    scaleClamp: require('./scale/clamp'),
+    scaleCurve: require('./scale/curve'),
+    scaleNeeded: require('./scale/needed'),
+    scalingDimension: require('./scaling-dimension'),
+    scalingDimensionOpposite: require('./scaling-dimension/opposite'),
+    specificity: require('./specificity'),
+    tooBig: require('./too-big'),
+    within: require('./within')
+};
