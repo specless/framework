@@ -1,7 +1,7 @@
 const printMessage = require('print-message');
 const open = require('open');
 
-const { SPECLESS_SETTINGS } = require('../constants');
+const { OPEN_BROWSER_ON_LAUNCH } = require('../constants');
 module.exports = (req, res) => {
     const sessionToken = req.app.get('sessionToken');
     const socket = req.app.get('socketio');
@@ -21,7 +21,7 @@ module.exports = (req, res) => {
                 '',
                 url
             ]);
-            if (SPECLESS_SETTINGS.openBrowserOnLaunch) {
+            if (OPEN_BROWSER_ON_LAUNCH) {
                 open(url)
             }
         }, 1000)

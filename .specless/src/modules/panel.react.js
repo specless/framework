@@ -1,4 +1,3 @@
-import { BUILD_ID } from '@specless/env';
 let React = {};
 if (typeof window === 'object') {
     React = window[`__speclessInstance_${BUILD_ID}_React`];

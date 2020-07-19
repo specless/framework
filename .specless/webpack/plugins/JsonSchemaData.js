@@ -4,21 +4,23 @@ const fs = require('fs');
 //const path = require('path');
 const Ajv = require('ajv');
 const {
-  FIELDSETS,
+  CONFIG_MODULE,
   DEMO_DATA,
-  DEMO_DATA_OUTPUT_NAME,
-  DEFAULT_DATA_OUTPUT_NAME
+  DEFAULT_DATA_OUTPUT_NAME,
+  DEMO_DATA_OUTPUT_NAME
 } = require('./../../constants');
 
 function JsonSchemaData(options) {}
 
 JsonSchemaData.prototype.apply = (compiler) => {
     compiler.plugin('emit', function(compilation, callback) {
-        const fieldsets = importFresh(FIELDSETS);
+        const config = importFresh(CONFIG_MODULE);
+        const fieldsets = config.fieldsets;
         const data = {};
         let demoExists = false;
         let demoData = data;
         const validDemoData = {};
+        console.log(DEMO_DATA);
         try {
           if (fs.existsSync(DEMO_DATA)) {
             demoExists = true;

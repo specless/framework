@@ -1,8 +1,20 @@
 {
+    "name": "Specless Ad Product",
     "projectType": "template",
-    "devPort": 3030,
-    "openBrowserOnLaunch": false,
+    "devPort": 3232,
+    "openBrowserOnLaunch": true,
     "libraryBuild": null,
+    "panels": {
+        "default": "/src/panel.default.js"
+    },
+    "demoPages": {
+        "default": "/src/panel.default.js"
+    },
+    "configModule": "/src/config/index.js",
+    "dataJson": "/src/data/data.json",
+    "dynamicDataModule": "/src/data/dynamic.js",
+    "placementModule": "/src/placement.js",
+    "assetsFolder": "/src/assets",
     "speclessServer": "https://worker.specless.app/1",
     "csfUrl": "https://worker.specless.app/1/csf/1585092194639/csf.remote.mjs"
 }

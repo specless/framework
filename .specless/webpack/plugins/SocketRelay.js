@@ -1,6 +1,5 @@
-const path = require('path');
-const importFresh = require('import-fresh');
 const axios = require('axios');
+const { SOCKET_SERVER } = require('./../../constants');
 
 class SocketRelay {
     constructor(options) {
@@ -10,7 +9,6 @@ class SocketRelay {
     apply(compiler) {
         compiler.hooks.done.tapAsync('SocketRelay', (compilation, callback) => {
             try {
-                const session = importFresh('../../server/session.json');
                 const message = {
                     process: this.options.process,
                     type: 'compilation',
@@ -24,7 +22,7 @@ class SocketRelay {
                         size: compilation.assets[key].size()
                     })
                 }
-                axios.post(session.server, message);
+                axios.post(SOCKET_SERVER, message);
             } catch (err) {
                 
             }

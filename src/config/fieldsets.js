@@ -17,30 +17,6 @@ const general = {
     }
 }
 
-const sections = {
-    key: 'sections',
-    title: 'Sections',
-    schema: {
-        type: 'array',
-        items: {
-            type: 'object',
-            title: 'Section',
-            properties: {
-                name: {
-                    type: 'string',
-                    title: 'Name',
-                    description: 'Provide an unique identifier for this exit.',
-                }
-            }
-        }
-    },
-    uiSchema: {
-        "ui:options": {
-            addButtonLabel: 'Add Section'
-        }
-    }
-}
-
 const wide = {
     key: 'wide',
     title: 'Wide Design Settings',
@@ -179,7 +155,6 @@ const small = {
 
 module.exports = [
     general,
-    sections,
     wide,
     large,
     medium,

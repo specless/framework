@@ -1,7 +1,12 @@
-const { SPECLESS_SETTINGS, SETTINGS } = require('./../constants');
+const { 
+    BUILD_PATH,
+    SSR_MODULE_OUTPUT_NAME,
+    SSR_PANEL_MODULE_OUTPUT_PREFIX,
+    DEMO_DATA_OUTPUT_NAME,
+    DEFAULT_DATA_OUTPUT_NAME
+} = require('../constants');
 const importFresh = require('import-fresh');
 const path = require('path');
-const buildDir = path.resolve(__dirname, '../../build');
 
 const parseQuery = (urlParams) => {
     for (let key in urlParams) {
@@ -25,14 +30,13 @@ const parseQuery = (urlParams) => {
 
 module.exports = (req, res) => {
     const panelId = req.params.panel || 'default';
-    const speclessModule = buildDir + '/__ssr.specless.run.js';
-    const panelModulePath = buildDir + `/__ssr.panel.${panelId}.js`;
-    const emptyData = buildDir + '/data.empty.json';
-    const defaultData = buildDir + '/data.default.json';
+    const speclessModule = path.join(BUILD_PATH, SSR_MODULE_OUTPUT_NAME);
+    const panelModulePath = path.join(BUILD_PATH, `${SSR_PANEL_MODULE_OUTPUT_PREFIX}${panelId}.js`);
+    const emptyData = path.join(BUILD_PATH, DEFAULT_DATA_OUTPUT_NAME);
+    const defaultData = path.join(BUILD_PATH, DEMO_DATA_OUTPUT_NAME);
     const serverRoot = 'https://' + req.hostname;
     const specless = importFresh(speclessModule);
     const panelModule = importFresh(panelModulePath);
-    const settings = importFresh(SETTINGS);
     const query = parseQuery(req.query);
     const panel = query.panel || {};
     const constants = query.constants || {};
@@ -47,22 +51,6 @@ module.exports = (req, res) => {
     constants.templateAssetsPath = `${serverRoot}/assets`;
     constants.templateDynamicDataUrl = `${serverRoot}/data/dynamic`;
     constants.isPreview = true;
-    const exits = [];
-    const trackers = [];
-    
-    settings.exits.forEach(exit => {
-        exits.push({
-            id: exit.id,
-            url: `https://specless.app/test-exit?id=${exit.id}&name=${exit.name}`
-        })
-    })
-
-    settings.trackers.forEach(tracker => {
-        trackers.push({
-            id: tracker.id,
-            urls: []
-        })
-    })
     
     if (constants.templateConfig === 'empty') {
         data = importFresh(emptyData)
@@ -70,9 +58,7 @@ module.exports = (req, res) => {
     const props = {
         constants,
         panel,
-        data,
-        exits,
-        trackers
+        data
     }
     
     const html = specless.renderPanel({}, Panel, renderTarget, props);

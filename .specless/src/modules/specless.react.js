@@ -1,4 +1,3 @@
-import { BUILD_ID } from '@specless/env';
 import React from 'preact/compat';
 if (typeof window === 'object') {
     window[`__speclessInstance_${BUILD_ID}_React`] = React;

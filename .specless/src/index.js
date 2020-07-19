@@ -4,12 +4,8 @@ import { render } from 'preact-render-to-string';
 import * as utils from './modules/specless.utils.js';
 import * as components from '@specless/components';
 import { JssProvider, SheetsRegistry } from 'react-jss';
-import {
-    LIBRARY_ROOT,
-    LIBRARY_BUILD,
-    CSF_URL,
-    SPECLESS_SERVER_ROOT
-} from '@specless/env';
+
+console.log(LIBRARY_ROOT, SERVER_ROOT, LIBRARY_BUILD);
 
 export const renderPanel = (csf, Panel, renderTarget, settings) => {
     const { Controller } = components;
@@ -60,7 +56,7 @@ export const renderPanel = (csf, Panel, renderTarget, settings) => {
     }
     
     if (!constants.serverRoot) {
-        constants.serverRoot = SPECLESS_SERVER_ROOT;
+        constants.serverRoot = SERVER_ROOT;
     }
 
     if (constants.templateBuild) {
@@ -88,7 +84,7 @@ export const renderPanel = (csf, Panel, renderTarget, settings) => {
             constants.templateLibraryRoot = LIBRARY_ROOT
         } else if (LIBRARY_BUILD) {
             constants.templateLibraryBuild = LIBRARY_BUILD;
-            const serverRoot = constants.serverRoot || SPECLESS_SERVER_ROOT;
+            const serverRoot = constants.serverRoot || SERVER_ROOT;
             constants.templateLibraryRoot = `${serverRoot}/builds/${LIBRARY_BUILD}`;
         } else {
             constants.templateLibraryRoot = constants.templateRoot || '';

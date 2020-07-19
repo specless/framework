@@ -1,4 +1,3 @@
-import { BUILD_ID } from '@specless/env';
 let utils = {};
 if (typeof window === 'object') {
     utils = window[`__speclessInstance_${BUILD_ID}_utils`];

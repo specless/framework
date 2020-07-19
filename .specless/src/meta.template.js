@@ -1,14 +1,10 @@
 import React from './modules/specless.react.js';
 import * as utils from './modules/specless.utils.js';
 import * as components from './modules/specless.components.js';
-import panelModules from './../../src/panels';
-const fieldsets = require('./../../src/meta/fieldsets');
-const views = require('./../../src/meta/views');
+import panelModules from '@specless/panels';
+const CONFIG = require('@specless/config');
 const platform = require('./../../specless.json');
-const settings = require('./../../src/meta/settings.json');
-const settingsSchema = require('./schemas/settings.js');
-const defaultData = require('./../../src/meta/data.json');
-const { VERSION } = require('../constants.js');
+const defaultData = require('@specless/data');
 
 const panels = {};
 for (let key in panelModules) {
@@ -39,13 +35,24 @@ for (let key in panelModules) {
 }
 
 export const meta = {
-    libraryBuild: VERSION,
-    type: 'template',
-    panels,
-    settings,
-    fieldsets,
-    views,
-    settingsSchema,
+    type: PROJECT_TYPE,
+    libraryBuild: LIBRARY_BUILD,
+    libraryRoot: LIBRARY_ROOT,
+    buildId: BUILD_ID,
+    buildHash: BUILD_HASH,
+    serverRoot: SERVER_ROOT,
+    settings: {
+        general: {
+            name: PROJECT_NAME
+        },
+        specs: CONFIG.specs,
+        exits: CONFIG.exits,
+        trackers: CONFIG.trackers
+    },
+    fieldsets: CONFIG.fieldsets,
+    views: CONFIG.views,
     platform,
-    defaultData
+    defaultData,
+    panels,
+    settingsSchema: []
 }
