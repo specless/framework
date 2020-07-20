@@ -10,13 +10,16 @@ If you are viewing the repo at `https://github.comspecless/framework`, instead o
 
 ## Getting Started
 
-### 1. Install Dependencies
+### 1. Clone the repo you generated to your local system
+After clicking 'Use as template' and generating a new rep, clone that repo to your local system and navigate to the root folder in ther terminal. If this repo is the repo you created, then clone this repo.
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Run the Initial Setup
+### 3. Run the Initial Setup
 
 ```bash
 npm run setup
