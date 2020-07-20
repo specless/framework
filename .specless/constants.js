@@ -3,7 +3,7 @@ const settings = require('../specless.json');
 
 const PROJECT_ROOT = path.resolve(__dirname, '../');
 
-const LOCAL_ID = path.basename(PROJECT_ROOT);
+const PROJECT_ID = settings.projectId || path.basename(PROJECT_ID) || 'default-project';
 
 const BUILD_HASH = require('../.specless.build.json').id;
 
@@ -71,13 +71,17 @@ const BUILD_API_FAILED = '/api/build/failed';
 
 const LIBRARY_ENTRY = path.join(PROJECT_ROOT, '.specless/src/index.js');
 
+const LOCAL_ID = `${PROJECT_ID}-${BUILD_HASH}`;
+
 const LOCAL_SERVER = `https://${LOCAL_ID}.ngrok.io/`;
+
 const SOCKET_SERVER = LOCAL_SERVER + 'relay';
 
 module.exports = {
     BUILD_HASH,
     BUILD_ID: LIBRARY_BUILD || BUILD_HASH,
     PROJECT_ROOT,
+    PROJECT_ID,
     LOCAL_ID,
     PANEL_MODULES,
     DEMO_PAGE_MODULES,
