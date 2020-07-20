@@ -5,57 +5,87 @@ const fs = require('fs');
 const ROOT_PATH = path.resolve(__dirname, '../../');
 const BASE_NAME = path.basename(ROOT_PATH);
 const SETTINGS_FILE = path.join(ROOT_PATH, 'specless.json');
-console.log(SETTINGS_FILE);
-inquirer.prompt([
-    {
-        type: 'list',
-        name: 'projectType',
-        message: 'What kind of project would you like to create?',
-        choices: ['Creative Template', 'Ad Placement'],
-        filter: function (val) {
-            if (val === 'Creative Template') {
-                return 'template'
-            } else if (val === 'Ad Placement') {
-                return 'placement'
-            }
+const TEMPLATE_SRC = path.join(ROOT_PATH, './specless/project-templates/template/src');
+const PLACEMENT_SRC = path.join(ROOT_PATH, './specless/project-templates/placement/src');
+const GITHUB_ACTIONS = path.join(ROOT_PATH, './specless/project-templates/.github');
+const GIT_IGNORE = path.join(ROOT_PATH, './specless/project-templates/.gitignore');
+
+const start = () => {
+    if (fs.existsSync(SETTINGS_FILE)) {
+        confirmSetup();
+    } else {
+        runSetup();
+    }
+}
+
+const confirmSetup = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'proceed',
+            message: `You've already setup this project. Setting up the project again may override the files in your /src directory. Do you still want to proceed?`,
+            choices: ['NO', 'YES']
         }
-    },
-    {
-        type: 'input',
-        name: 'name',
-        default: BASE_NAME,
-        message: 'What would you like to name this project?'
-    },
-    {
-        type: 'input',
-        name: 'devPort',
-        default: '3232',
-        message: 'What port would you like to run the local development server on?',
-        validate: function (value) {
-            var pass = value.match(
-                /^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/i
-            );
-            if (pass) {
-                if (value.length === 4) {
-                    return true;
-                } else {
-                    return 'Port number should be 4 digits.'
+    ]).then(answers => {
+        if (answers.proceed === 'YES') {
+            runSetup()
+        }
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+const runSetup = () => {
+
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'projectType',
+            message: 'What kind of project would you like to create?',
+            choices: ['Creative Template', 'Ad Placement'],
+            filter: function (val) {
+                if (val === 'Creative Template') {
+                    return 'template'
+                } else if (val === 'Ad Placement') {
+                    return 'placement'
                 }
             }
-            return 'Please enter a valid port number.';
-        }
-    },
-]).then(answers => {
-    answers.devPort = Number(answers.devPort);
-    const settings = Object.assign({}, specless, answers, {
-        devPort: Number(answers.devPort),
-        projectId: BASE_NAME
+        },
+        {
+            type: 'input',
+            name: 'name',
+            default: BASE_NAME,
+            message: 'What would you like to name this project?'
+        },
+        {
+            type: 'input',
+            name: 'devPort',
+            default: '3232',
+            message: 'What port would you like to run the local development server on?',
+            validate: function (value) {
+                var pass = value.match(
+                    /^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/i
+                );
+                if (pass) {
+                    if (value.length === 4) {
+                        return true;
+                    } else {
+                        return 'Port number should be 4 digits.'
+                    }
+                }
+                return 'Please enter a valid port number.';
+            }
+        },
+    ]).then(answers => {
+        answers.devPort = Number(answers.devPort);
+        const settings = Object.assign({}, specless, answers, {
+            devPort: Number(answers.devPort),
+            projectId: BASE_NAME
+        });
+        fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings));
+    }).catch(error => {
+        console.error(error);
     });
-    fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings));
-}).catch(error => {
-    if(error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else when wrong
-    }
-});
+}
+
+start();
