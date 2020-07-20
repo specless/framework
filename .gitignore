@@ -1,8 +1,7 @@
 node_modules/
 build/
+src/
 .DS_Store
-.specless/server/session.json
-/readme.md
 src/
 /specless.json
 .github/
