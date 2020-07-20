@@ -8,9 +8,11 @@
     "dev:project": "webpack --config ./.specless/webpack/project.js --mode=development --target=web --watch",
     "serve": "node ./.specless/server/index.js",
     "dev": "run-p serve dev:shared dev:project",
+    "start": "run-p serve dev:shared dev:project",
     "build": "node ./.specless/scripts/update-build-hash.js && run-p build:shared build:project",
     "build:start": "node ./.specless/scripts/start.js",
     "upload": "node ./.specless/scripts/specless.js",
+    "setup": "node ./.specless/scripts/setup.js",
     "deploy": "run-s build:start build upload"
   },
   "keywords": [
@@ -89,6 +91,7 @@
     "es6-tween": "^5.5.11",
     "form-data": "^3.0.0",
     "gsap": "^3.3.4",
+    "inquirer": "^7.3.2",
     "jss-plugin-global": "^10.3.0",
     "nuka-carousel": "^4.7.0",
     "preact": "^10.4.4",

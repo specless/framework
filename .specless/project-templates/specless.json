@@ -1,6 +1,7 @@
 {
     "name": "Specless Ad Product",
     "projectType": "template",
+    "projectId": "framework-boilerplate",
     "devPort": 3232,
     "openBrowserOnLaunch": true,
     "libraryBuild": null,
