@@ -2,13 +2,20 @@ var inquirer = require('inquirer');
 const specless = require('./../project-templates/specless.json');
 const path = require('path');
 const fs = require('fs');
+const ncp = require('ncp');
+const readmeGenerator = require('./readme-generator');
+
 const ROOT_PATH = path.resolve(__dirname, '../../');
 const BASE_NAME = path.basename(ROOT_PATH);
 const SETTINGS_FILE = path.join(ROOT_PATH, 'specless.json');
-const TEMPLATE_SRC = path.join(ROOT_PATH, './specless/project-templates/template/src');
-const PLACEMENT_SRC = path.join(ROOT_PATH, './specless/project-templates/placement/src');
-const GITHUB_ACTIONS = path.join(ROOT_PATH, './specless/project-templates/.github');
-const GIT_IGNORE = path.join(ROOT_PATH, './specless/project-templates/.gitignore');
+const TEMPLATE_SRC = path.join(ROOT_PATH, './.specless/project-templates/template/src');
+const PLACEMENT_SRC = path.join(ROOT_PATH, './.specless/project-templates/placement/src');
+const GITHUB_ACTIONS = path.join(ROOT_PATH, './.specless/project-templates/.github');
+const GIT_IGNORE = path.join(ROOT_PATH, './.specless/project-templates/.gitignore');
+const SRC_DESTINATION = path.join(ROOT_PATH, '/src');
+const GITHUB_ACTIONS_DESTINATION = path.join(ROOT_PATH, '/.github');
+const GITHUB_IGNORE_DESTINATION = path.join(ROOT_PATH, '/.gitignore');
+const README_DESTINATION = path.join(ROOT_PATH, '/readme.md');
 
 const start = () => {
     if (fs.existsSync(SETTINGS_FILE)) {
@@ -16,6 +23,49 @@ const start = () => {
     } else {
         runSetup();
     }
+}
+
+const generateFiles = (config) => {
+    let SRC = TEMPLATE_SRC;
+    if (config.projectType === 'placement') {
+        SRC = PLACEMENT_SRC;
+    }
+    console.log('Copying project files...');
+    ncp(SRC, SRC_DESTINATION, function (srcError) {
+        if (!srcError) {
+            console.log('Copying GitHub actions...');
+            ncp(SRC, SRC_DESTINATION, function (actionsError) {
+                if (!actionsError) {
+                    console.log('Generating new .gitignore file...');
+                    fs.copyFile(GIT_IGNORE, GITHUB_IGNORE_DESTINATION, (gitIgnoreError) => {
+                        if (!gitIgnoreError) {
+                            console.log('Generating project README...');
+                            const readme = readmeGenerator(config);
+                            fs.writeFile(README_DESTINATION, readme, (readmeError) => {
+                                if (!readmeError) {
+                                    console.log('Generating project config specless.json file...')
+                                    fs.writeFile(SETTINGS_FILE, JSON.stringify(config), (settingsError) => {
+                                        if (!settingsError) {
+                                            console.log('Project successfully setup!')
+                                        } else {
+                                            console.error(settingsError);
+                                        }
+                                    })
+                                }
+                            })
+                        } else {
+                            console.error(gitIgnoreError)
+                        }
+                    })
+                } else {
+                    console.error(actionsError);
+                }
+            });
+        } else {
+            console.error(srcError);
+        }
+    });
+    
 }
 
 const confirmSetup = () => {
@@ -78,11 +128,11 @@ const runSetup = () => {
         },
     ]).then(answers => {
         answers.devPort = Number(answers.devPort);
-        const settings = Object.assign({}, specless, answers, {
+        const config = Object.assign({}, specless, answers, {
             devPort: Number(answers.devPort),
             projectId: BASE_NAME
         });
-        fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings));
+        generateFiles(config);
     }).catch(error => {
         console.error(error);
     });
