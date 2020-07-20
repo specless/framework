@@ -24,6 +24,11 @@ export const config = {
 }
 
 export class Panel extends Component {
+
+    handleClickThrough = () => {
+        this.exit('main')
+    }
+
     render() {
         const { data, layout } = this.props;
         let logoUrl = placeholderLogo;
@@ -71,7 +76,7 @@ export class Panel extends Component {
 
 
         return (
-            <Body style={{backgroundColor: 'white'}} onClick={this.exit('main')}>
+            <Body style={{backgroundColor: 'white'}} onClick={this.handleClickThrough}>
                 <Wrapper>
                     <Layer image={this.url(logoUrl)} style={logoStyles[layout.id]}/>
                     <Layer style={headlineStyles}>{headline}</Layer>
