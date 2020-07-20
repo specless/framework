@@ -10,16 +10,9 @@ const PLACEMENT_README = fs.readFileSync(PLACEMENT_README_PATH);
 
 module.exports = (config) => {
 return `# ${config.name}
-
-${(config.projectType === 'template') & (
-    'A creative template created with the Specless framework.'
-)}${(config.projectType === 'placement') & (
-    'An ad placement created with the Specless framework.'
-)}
+${(config.projectType === 'template') ? 'A creative template created with the Specless framework.' : 'An ad placement created with the Specless framework.'}
 
 ${README}
 
-${(config.type === 'template') & (TEMPLATE_README)}${(config.type === 'placement') & (PLACEMENT_README)}
-
-`
+${(config.projectType === 'template') ? TEMPLATE_README : PLACEMENT_README}`
 }

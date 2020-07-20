@@ -11,7 +11,7 @@ const SETTINGS_FILE = path.join(ROOT_PATH, 'specless.json');
 const TEMPLATE_SRC = path.join(ROOT_PATH, './.specless/project-templates/template/src');
 const PLACEMENT_SRC = path.join(ROOT_PATH, './.specless/project-templates/placement/src');
 const GITHUB_ACTIONS = path.join(ROOT_PATH, './.specless/project-templates/.github');
-const GIT_IGNORE = path.join(ROOT_PATH, './.specless/project-templates/.gitignore');
+const GIT_IGNORE = path.join(ROOT_PATH, './.specless/project-templates/gitignore.txt');
 const SRC_DESTINATION = path.join(ROOT_PATH, '/src');
 const GITHUB_ACTIONS_DESTINATION = path.join(ROOT_PATH, '/.github');
 const GITHUB_IGNORE_DESTINATION = path.join(ROOT_PATH, '/.gitignore');
@@ -34,7 +34,7 @@ const generateFiles = (config) => {
     ncp(SRC, SRC_DESTINATION, function (srcError) {
         if (!srcError) {
             console.log('Copying GitHub actions...');
-            ncp(SRC, SRC_DESTINATION, function (actionsError) {
+            ncp(GITHUB_ACTIONS, GITHUB_ACTIONS_DESTINATION, function (actionsError) {
                 if (!actionsError) {
                     console.log('Generating new .gitignore file...');
                     fs.copyFile(GIT_IGNORE, GITHUB_IGNORE_DESTINATION, (gitIgnoreError) => {
