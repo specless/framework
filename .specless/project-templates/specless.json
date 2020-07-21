@@ -11,6 +11,7 @@
     "demoPages": {
         "default": "/src/demo.default.js"
     },
+    "demoAd": null,
     "configModule": "/src/config/index.js",
     "dataJson": "/src/data/data.json",
     "dynamicDataModule": "/src/data/dynamic.js",

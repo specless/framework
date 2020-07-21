@@ -10,7 +10,7 @@ export const Page = (props) => {
                         <Layout.Header className="header" style={{
                             display: 'flex'
                         }}>
-                            <div style={{
+                            <div className="dummy" style={{
                                 flex: 1
                             }}>
                                 <Avatar/>  LoremIpsum</div>
@@ -32,7 +32,7 @@ export const Page = (props) => {
                             </div>
                         </Layout.Header>
                     </Affix>
-                    <Layout.Content className="content">
+                    <Layout.Content className="content" style={{width: '100%'}}>
                         <Layout className="wrapper">{props.children}</Layout>
                     </Layout.Content>
                 </Layout>
@@ -70,6 +70,11 @@ export const Content = (props) => {
         }
     }
 
+    let newProps = Object.assign({}, props);
+    if (newProps.maxWidth) {
+        delete newProps.maxWidth
+    }
+
     return (
         <Layout.Content {...props}>
             <div className="content" style={style}>
@@ -77,4 +82,8 @@ export const Content = (props) => {
             </div>
         </Layout.Content>
     )
+}
+
+export const Wrapper = (props) => {
+    return <Layout {...props} className="wrapper">{props.children}</Layout>
 }

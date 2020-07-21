@@ -9,46 +9,50 @@ import {
     DummyImage,
     DummyHeadline,
     DummyQuote,
-    AdSlot
+    AdSlot,
+    Wrapper
 } from '@demo-page';
 
 render(() => {
+    
+    
+
     return (
         <Page header="sticky">
-            <Sidebar>
-                <DummyHeadline level={4}/>
-                {/* <AdSlot id="ad-slot" width={300} height={250}/> */}
-                <DummyContent paragraphs={1}/>
-            </Sidebar>
-            <Content maxWidth={800}>
+            <Content style={{
+                width: '100%'
+            }}>
                 <Section>
-                    <DummyHeadline/>
+                    <AdSlot id="ad-slot" width={1} height={2}/>
                 </Section>
-                <Section> 
-                    <DummyImage/>
-                </Section>
-                <Section>
-                    <DummyContent paragraphs={3}/>
-                </Section>
-                <Section>
-                    <AdSlot id="ad-slot" width={300} height={400}/>
-                </Section>
-                <Section>
-                    <DummyContent paragraphs={3}/>
-                </Section>
-                <Section>
-                    <DummyQuote/>
-                </Section>
-                <Section>
-                    <DummyContent paragraphs={3}/>
-                </Section>
+                <Wrapper style={{maxWidth: 1120}}>
+                    <Sidebar>
+                        <DummyHeadline level={4}/>
+                        {/* <AdSlot id="ad-slot" width={300} height={250}/> */}
+                        <DummyContent paragraphs={1}/>
+                    </Sidebar>
+                    <Content maxWidth={800}>
+                        <Section>
+                            <DummyHeadline/>
+                        </Section>
+                        <Section> 
+                            <DummyImage/>
+                        </Section>
+                        <Section>
+                            <DummyContent paragraphs={3}/>
+                        </Section>
+                        <Section>
+                            <DummyContent paragraphs={3}/>
+                        </Section>
+                        <Section>
+                            <DummyQuote/>
+                        </Section>
+                        <Section>
+                            <DummyContent paragraphs={3}/>
+                        </Section>
+                    </Content>
+                </Wrapper>
             </Content>
         </Page>
     )
 })
-
-
-
-
-
-

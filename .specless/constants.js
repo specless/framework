@@ -7,6 +7,8 @@ const PROJECT_ID = settings.projectId || path.basename(PROJECT_ID) || 'default-p
 
 const BUILD_HASH = require('../.specless.build.json').id;
 
+const DEMO_AD_DATA = require('./.tmp/demo-ad.json');
+
 const PANEL_MODULES = {};
 if (settings.panels) {
     for (let key in settings.panels) {
@@ -24,6 +26,12 @@ if (settings.demoPages) {
 const BUILD_PATH = path.join(PROJECT_ROOT, '/build');
 
 const DEMO_DATA = path.join(PROJECT_ROOT, settings.dataJson || '/src/data/data.json');
+
+const DEMO_AD = settings.demoAd;
+
+const TMP_DIR = path.join(PROJECT_ROOT, '/.specless/.tmp');
+
+const DEMO_AD_DATA_PATH = path.join(TMP_DIR, '/demo-ad.json');
 
 const CONFIG_MODULE = path.join(PROJECT_ROOT, settings.configModule || '/src/config/index.js');
 
@@ -87,6 +95,10 @@ module.exports = {
     DEMO_PAGE_MODULES,
     BUILD_PATH,
     DEMO_DATA,
+    DEMO_AD,
+    DEMO_AD_DATA,
+    DEMO_AD_DATA_PATH,
+    TMP_DIR,
     CONFIG_MODULE,
     DYNAMIC_DATA_MODULE,
     PLACEMENT_MODULE,

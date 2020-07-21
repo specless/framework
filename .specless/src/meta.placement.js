@@ -1,5 +1,4 @@
 const CONFIG = require('@specless/config');
-const CONFIG = require('@specless/config');
 const platform = require('./../../specless.json');
 const defaultData = require('@specless/data');
 

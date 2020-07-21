@@ -1,8 +1,9 @@
 const path = require('path');
+const { LIBRARY_ROOT, LIBRARY_BUILD, CSF_URL, SERVER_ROOT, BUILD_HASH, BUILD_PATH, CONFIG_MODULE, DEMO_DATA, BUILD_ID, PROJECT_NAME, PROJECT_TYPE, DEMO_AD_DATA } = require('./../constants');
 const GenerateHTML = require('./plugins/GenerateHTML');
 const SocketRelay = require('./plugins/SocketRelay');
-const entry = {};
 const { DEMO_PAGE_MODULES } = require('./../constants');
+const webpack = require('webpack');
 
 module.exports = (env, args) => {
     const entry = {};
@@ -25,6 +26,17 @@ module.exports = (env, args) => {
         },
         plugins: [
             new GenerateHTML(),
+            new webpack.DefinePlugin({
+                LIBRARY_BUILD: JSON.stringify(LIBRARY_BUILD),
+                LIBRARY_ROOT: JSON.stringify(LIBRARY_ROOT),
+                CSF_URL: JSON.stringify(CSF_URL),
+                SERVER_ROOT: JSON.stringify(SERVER_ROOT),
+                BUILD_HASH: JSON.stringify(BUILD_HASH),
+                BUILD_ID: JSON.stringify(BUILD_ID),
+                PROJECT_NAME: JSON.stringify(PROJECT_NAME),
+                PROJECT_TYPE: JSON.stringify(PROJECT_TYPE),
+                DEMO_AD_DATA: JSON.stringify(DEMO_AD_DATA)
+            }),
         ],
         module: {
             rules: [
@@ -36,7 +48,14 @@ module.exports = (env, args) => {
                         options: {
                             presets: [
                                 "preact",
-                                "@babel/preset-env",
+                                [
+                                    "@babel/preset-env",
+                                    {
+                                        "targets":{
+                                           "esmodules": true
+                                        }
+                                    }
+                                ]
                             ],
                             plugins: [
                                 ["@babel/plugin-proposal-class-properties"],

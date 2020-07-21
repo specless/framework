@@ -1,7 +1,7 @@
-const settings = require('./../../../src/meta/settings.json');
-const defaultBuild = settings.general.defaultTemplateBuild;
-const defaultConfig = settings.general.defaultTemplateConfig;
-const defaultPanels = settings.general.defaultPanels;
+console.log(DEMO_AD_DATA);
+const defaultBuild = DEMO_DATA.templateBuild;
+const defaultConfig = DEMO_DATA.templateConfig;
+const defaultPanels = DEMO_DATA.templatePanels || ['default'];
 
 export const tag =  (csf, placement) => {
     

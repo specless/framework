@@ -1,5 +1,14 @@
 const printMessage = require('print-message');
 const open = require('open');
+const { PROJECT_TYPE } = require('../constants');
+
+let projectProcess = 'panels';
+let sharedProcess = 'specless';
+
+if (PROJECT_TYPE === 'placement') {
+    projectProcess = 'placements';
+    sharedProcess = 'demo-pages';
+}
 
 const { OPEN_BROWSER_ON_LAUNCH } = require('../constants');
 module.exports = (req, res) => {
@@ -10,7 +19,7 @@ module.exports = (req, res) => {
     if (req.app.get('webpack-started')) {
         socket.emit('webpack', message);
     }
-    if (req.app.get('panels-started') && req.app.get('specless-started') && !req.app.get('webpack-started')) {
+    if (req.app.get(`${projectProcess}-started`) && req.app.get(`${sharedProcess}-started`) && !req.app.get('webpack-started')) {
         req.app.set('webpack-started', true);
         const url = `https://specless.app/localhost/${sessionToken}`
         setTimeout(() => {

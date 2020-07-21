@@ -1,6 +1,6 @@
 const config = require('./config.web.js');
 const path = require('path');
-const { PANEL_MODULES, PLACEMENT_MODULE } = require('./../constants');
+const { PLACEMENT_MODULE } = require('./../constants');
 const JsonSchemaData = require('./plugins/JsonSchemaData.js');
 const GenerateMetaData = require('./plugins/GenerateMetaData.js');
 const SocketRelay = require('./plugins/SocketRelay');
