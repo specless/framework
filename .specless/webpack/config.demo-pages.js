@@ -1,15 +1,14 @@
 const path = require('path');
-const fs = require('fs');
 const GenerateHTML = require('./plugins/GenerateHTML');
 const SocketRelay = require('./plugins/SocketRelay');
 const entry = {};
-const CONSTANTS = require('./../constants');
-fs.readdirSync(CONSTANTS.DEMO_PAGES).forEach((page) => {
-    const name = page.replace('.js', '');
-    entry[`demo.${name}`] = path.resolve(__dirname, `../../src/demo-pages/${page}`);
-})
+const { DEMO_PAGE_MODULES } = require('./../constants');
 
 module.exports = (env, args) => {
+    const entry = {};
+    for (let key in DEMO_PAGE_MODULES) {
+        entry[`demo.${key}`] = DEMO_PAGE_MODULES[key];
+    }
     const config = {
         entry: entry,
         output: {

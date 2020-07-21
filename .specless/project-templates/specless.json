@@ -9,7 +9,7 @@
         "default": "/src/panel.default.js"
     },
     "demoPages": {
-        "default": "/src/panel.default.js"
+        "default": "/src/demo.default.js"
     },
     "configModule": "/src/config/index.js",
     "dataJson": "/src/data/data.json",

@@ -13,9 +13,6 @@ import {
 } from '@demo-page';
 
 render(() => {
-    
-    
-
     return (
         <Page header="sticky">
             <Sidebar>
