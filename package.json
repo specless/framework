@@ -8,7 +8,7 @@
     "dev:project": "webpack --config ./.specless/webpack/project.js --mode=development --target=web --watch",
     "serve": "node ./.specless/server/index.js",
     "dev": "npm run serve && run-p dev:shared dev:project",
-    "start": "node ./.specless/scripts/update-build-hash.js && npm run dev",
+    "start": "node ./.specless/scripts/init.js && node ./.specless/scripts/update-build-hash.js && npm run dev",
     "build": "node ./.specless/scripts/update-build-hash.js && run-p build:shared build:project",
     "build:start": "node ./.specless/scripts/start.js",
     "upload": "node ./.specless/scripts/specless.js",

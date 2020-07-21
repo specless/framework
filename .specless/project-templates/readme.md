@@ -18,7 +18,7 @@ Running the setup process will walk you through a series of questions to get you
 ### 3. Start The Development Environment
 
 ```bash
-npm run dev
+npm run start
 ```
 Running the development server will host your project locally and setup a communication channel with the [Specless Web Application](https://specless.app) so that you can preview your project while developing locally.
 
