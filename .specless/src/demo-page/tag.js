@@ -1,7 +1,6 @@
-console.log(DEMO_AD_DATA);
-const defaultBuild = DEMO_DATA.templateBuild;
-const defaultConfig = DEMO_DATA.templateConfig;
-const defaultPanels = DEMO_DATA.templatePanels || ['default'];
+const defaultBuild = DEMO_AD_DATA.templateBuild;
+const defaultConfig = DEMO_AD_DATA.templateConfig;
+const defaultPanels = DEMO_AD_DATA.templatePanels || ['default'];
 
 export const tag =  (csf, placement) => {
     

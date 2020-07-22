@@ -1,8 +1,9 @@
 const server = require('net').createServer();
 server.listen();
 const axios = require('axios');
+const { PROJECT_TYPE } = require('./../constants');
 const buildData = {
-    SPECLESS_TYPE: 'template',
+    SPECLESS_TYPE: PROJECT_TYPE,
     GITHUB_WORKFLOW: process.env.GITHUB_WORKFLOW,
     GITHUB_ACTION: process.env.GITHUB_ACTION,
     GITHUB_ACTIONS: process.env.GITHUB_ACTIONS,

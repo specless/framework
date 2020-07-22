@@ -2,9 +2,9 @@ const fs = require('fs');
 const FormData = require('form-data');
 const axios = require('axios');
 var http = require('http');
-
+const { PROJECT_TYPE } = require('./../constants');
 const buildData = {
-    SPECLESS_TYPE: 'template',
+    SPECLESS_TYPE: PROJECT_TYPE,
     GITHUB_WORKFLOW: process.env.GITHUB_WORKFLOW,
     GITHUB_ACTION: process.env.GITHUB_ACTION,
     GITHUB_ACTIONS: process.env.GITHUB_ACTIONS,

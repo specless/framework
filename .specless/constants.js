@@ -1,7 +1,11 @@
 const path = require('path');
-const settings = require('../specless.json');
+const specless = require('../specless.json');
+const defaults = require('./defaults.js');
+const settings = Object.assign({}, defaults, specless);
 
 const PROJECT_ROOT = path.resolve(__dirname, '../');
+
+const SETTINGS_MODULE = path.join(PROJECT_ROOT, '/.specless/src/settings.js');
 
 const PROJECT_ID = settings.projectId || path.basename(PROJECT_ID) || 'default-project';
 
@@ -31,6 +35,10 @@ const DEMO_AD = settings.demoAd;
 
 const TMP_DIR = path.join(PROJECT_ROOT, '/.specless/.tmp');
 
+const MODULES = path.join(PROJECT_ROOT, '/.specless/src/modules');
+
+const DYNAMIC_MODULES = path.join(PROJECT_ROOT, '/.specless/src/modules-dynamic');
+
 const DEMO_AD_DATA_PATH = path.join(TMP_DIR, '/demo-ad.json');
 
 const CONFIG_MODULE = path.join(PROJECT_ROOT, settings.configModule || '/src/config/index.js');
@@ -40,6 +48,10 @@ const DYNAMIC_DATA_MODULE = path.join(PROJECT_ROOT, settings.dynamicDataModule |
 const PLACEMENT_MODULE = path.join(PROJECT_ROOT, settings.placementModule || '/src/placement.js');
 
 const ASSETS_FOLDER = path.join(PROJECT_ROOT, settings.assetsFolder || '/src/assets');
+
+const PLACEMENT_META_ENTRY = path.join(PROJECT_ROOT, '/.specless/src/meta.placement.js');
+
+const TEMPLATE_META_ENTRY = path.join(PROJECT_ROOT, '/.specless/src/meta.template.js');
 
 const DEMO_DATA_OUTPUT_NAME = 'data.default.json';
 
@@ -90,6 +102,7 @@ module.exports = {
     BUILD_ID: LIBRARY_BUILD || BUILD_HASH,
     PROJECT_ROOT,
     PROJECT_ID,
+    DYNAMIC_MODULES,
     LOCAL_ID,
     PANEL_MODULES,
     DEMO_PAGE_MODULES,
@@ -103,6 +116,7 @@ module.exports = {
     DYNAMIC_DATA_MODULE,
     PLACEMENT_MODULE,
     ASSETS_FOLDER,
+    MODULES,
     DEMO_DATA_OUTPUT_NAME,
     DEFAULT_DATA_OUTPUT_NAME,
     META_DATA_OUTPUT_NAME,
@@ -123,5 +137,8 @@ module.exports = {
     BUILD_API_UPLOAD,
     BUILD_API_FAILED,
     LOCAL_SERVER,
-    SOCKET_SERVER
+    SOCKET_SERVER,
+    TEMPLATE_META_ENTRY,
+    PLACEMENT_META_ENTRY,
+    SETTINGS_MODULE
 }

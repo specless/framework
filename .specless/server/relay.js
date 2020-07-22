@@ -6,7 +6,7 @@ let projectProcess = 'panels';
 let sharedProcess = 'specless';
 
 if (PROJECT_TYPE === 'placement') {
-    projectProcess = 'placements';
+    projectProcess = 'placement';
     sharedProcess = 'demo-pages';
 }
 

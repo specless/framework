@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const { LIBRARY_ROOT, LIBRARY_BUILD, CSF_URL, SERVER_ROOT, BUILD_HASH, BUILD_PATH, CONFIG_MODULE, DEMO_DATA, BUILD_ID, PROJECT_NAME, PROJECT_TYPE } = require('./../constants');
+const { LIBRARY_ROOT, LIBRARY_BUILD, CSF_URL, SERVER_ROOT, BUILD_HASH, BUILD_PATH, CONFIG_MODULE, DEMO_DATA, BUILD_ID, PROJECT_NAME, PROJECT_TYPE, DEMO_AD_DATA } = require('./../constants');
 const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
 const GenerateSSRPlugin = require('./plugins/GenerateSSR');
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
             BUILD_ID: JSON.stringify(BUILD_ID),
             PROJECT_NAME: JSON.stringify(PROJECT_NAME),
             PROJECT_TYPE: JSON.stringify(PROJECT_TYPE),
+            DEMO_AD_DATA: JSON.stringify(DEMO_AD_DATA)
         }),
         new GenerateSSRPlugin(),
         new EsmWebpackPlugin(),

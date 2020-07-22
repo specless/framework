@@ -18,6 +18,7 @@ app.use(
         extended: true,
     })
 );
+
 app.get('/html/:panel', require('./html'));
 app.get('/assets/:file', require('./assets'));
 app.get('/meta', require('./meta'));

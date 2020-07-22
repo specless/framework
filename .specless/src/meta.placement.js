@@ -1,5 +1,5 @@
 const CONFIG = require('@specless/config');
-const platform = require('./../../specless.json');
+const platform = require('@specless/settings');
 const defaultData = require('@specless/data');
 
 export const meta = {
@@ -11,7 +11,10 @@ export const meta = {
     serverRoot: SERVER_ROOT,
     settings: {
         general: {
-            name: PROJECT_NAME
+            name: PROJECT_NAME,
+            defaultTemplateBuild: DEMO_AD_DATA.templateBuild,
+            defaultTemplateConfig: DEMO_AD_DATA.templateConfig,
+            defaultPanels: DEMO_AD_DATA.templatePanels || ['default']
         },
         specs: CONFIG.specs,
         exits: CONFIG.exits,

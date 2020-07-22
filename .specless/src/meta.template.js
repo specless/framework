@@ -3,7 +3,7 @@ import * as utils from './modules/specless.utils.js';
 import * as components from './modules/specless.components.js';
 import panelModules from '@specless/panels';
 const CONFIG = require('@specless/config');
-const platform = require('./../../specless.json');
+const platform = require('@specless/settings');
 const defaultData = require('@specless/data');
 
 const panels = {};

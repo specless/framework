@@ -5,8 +5,6 @@ import * as utils from './modules/specless.utils.js';
 import * as components from '@specless/components';
 import { JssProvider, SheetsRegistry } from 'react-jss';
 
-console.log(LIBRARY_ROOT, SERVER_ROOT, LIBRARY_BUILD);
-
 export const renderPanel = (csf, Panel, renderTarget, settings) => {
     const { Controller } = components;
     const { panel, constants, data } = settings;
