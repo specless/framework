@@ -1,12 +1,12 @@
-import { Context as _Context } from './../components/Context.js';
-import { Controller as _Controller } from './../components/Controller.js';
-import { Component as _Component } from './../components/Component.js';
-import { Body as _Body } from './../components/Body.js';
-import { Wrapper as _Wrapper } from './../components/Wrapper.js';
-import { Layer as _Layer } from './../components/Layer.js';
-import { Elements as _Elements } from './../components/Elements.js';
-import { VideoPlayer as _VideoPlayer } from './../components/VideoPlayer.js';
-import { Carousel as _Carousel } from './../components/Carousel.js';
+import { Context as _Context } from './../../components/Context.js';
+import { Controller as _Controller } from './../../components/Controller.js';
+import { Component as _Component } from './../../components/Component.js';
+import { Body as _Body } from './../../components/Body.js';
+import { Wrapper as _Wrapper } from './../../components/Wrapper.js';
+import { Layer as _Layer } from './../../components/Layer.js';
+import { Elements as _Elements } from './../../components/Elements.js';
+import { VideoPlayer as _VideoPlayer } from './../../components/VideoPlayer.js';
+import { Carousel as _Carousel } from './../../components/Carousel.js';
 const components = {
     Context: _Context,
     Controller: _Controller,

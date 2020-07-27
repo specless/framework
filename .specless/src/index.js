@@ -1,7 +1,7 @@
 import React, { h } from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'preact-render-to-string';
-import * as utils from './modules/specless.utils.js';
+import * as utils from '@specless/utils';
 import * as components from '@specless/components';
 import { JssProvider, SheetsRegistry } from 'react-jss';
 

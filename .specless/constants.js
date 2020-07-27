@@ -9,7 +9,7 @@ const SETTINGS_MODULE = path.join(PROJECT_ROOT, '/.specless/src/settings.js');
 
 const PROJECT_ID = settings.projectId || path.basename(PROJECT_ID) || 'default-project';
 
-const BUILD_HASH = require('../.specless.build.json').id;
+const BUILD_HASH = require('./.tmp/build.json').id;
 
 const DEMO_AD_DATA = require('./.tmp/demo-ad.json');
 

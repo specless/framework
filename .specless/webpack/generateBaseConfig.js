@@ -20,7 +20,8 @@ const {
     ASSETS_FOLDER,
     CONFIG_MODULE,
     DEMO_DATA,
-    SETTINGS_MODULE
+    SETTINGS_MODULE,
+    LOCAL_SERVER
 } = require('./../constants');
 
 const moduleAliases = [
@@ -86,7 +87,8 @@ module.exports = (process, env, args) => {
         BUILD_ID: JSON.stringify(BUILD_ID),
         PROJECT_NAME: JSON.stringify(PROJECT_NAME),
         PROJECT_TYPE: JSON.stringify(PROJECT_TYPE),
-        DEMO_AD_DATA: JSON.stringify(DEMO_AD_DATA)
+        DEMO_AD_DATA: JSON.stringify(DEMO_AD_DATA),
+        LOCAL_SERVER: JSON.stringify(LOCAL_SERVER)
     }))
 
     

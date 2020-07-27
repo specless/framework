@@ -14,6 +14,8 @@ module.exports = (env, args) => {
         config.entry[`panel.${key}`] = PANEL_MODULES[key];
         config.resolve.alias[`@panels/${key}`] = PANEL_MODULES[key];
     }
+    config.resolve.alias['@specless/panels'] = allPanelsModule;
+    
     config.entry['data.meta'] = TEMPLATE_META_ENTRY;
     config.entry['data.fetch'] = DYNAMIC_DATA_MODULE;
 

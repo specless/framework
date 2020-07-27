@@ -1,6 +1,6 @@
-import React from './modules/specless.react.js';
-import * as utils from './modules/specless.utils.js';
-import * as components from './modules/specless.components.js';
+import React from './modules/react/specless.js';
+import * as utils from './modules/utils/specless.js';
+import * as components from './modules/components/specless.js';
 import panelModules from '@specless/panels';
 const CONFIG = require('@specless/config');
 const platform = require('@specless/settings');
@@ -43,7 +43,9 @@ export const meta = {
     serverRoot: SERVER_ROOT,
     settings: {
         general: {
-            name: PROJECT_NAME
+            name: PROJECT_NAME,
+            defaultPlacementBuild: DEMO_AD_DATA.placementBuild,
+            defaultPlacementConfig: DEMO_AD_DATA.placementConfig
         },
         specs: CONFIG.specs,
         exits: CONFIG.exits,
@@ -56,3 +58,4 @@ export const meta = {
     panels,
     settingsSchema: []
 }
+

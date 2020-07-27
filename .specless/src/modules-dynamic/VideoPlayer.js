@@ -2,6 +2,7 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 import players from 'react-player/lib/players';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
+import { Layer } from '@specless/components';
 import {
     IoIosPause as PauseIcon,
     IoIosPlay as PlayIcon
@@ -429,7 +430,6 @@ class VideoPlayer extends React.Component {
     }
     
     render() {
-        const { Layer } = this.props.context.componentLibrary;
         this.props.context.api.useStyles(styles);
         const propNames = [
             'playing',

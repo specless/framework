@@ -30,8 +30,7 @@ module.exports = (env, args) => {
     config.module.rules.push({
         test: /\.(js|html)$/i,
         include: [
-            path.resolve(__dirname, '../src/vendor/safeframe'),
-            path.resolve(__dirname, '../src/vendor/specless')
+            path.resolve(__dirname, '../src/vendor')
         ],
         use:  [
             {

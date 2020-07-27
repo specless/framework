@@ -11,19 +11,17 @@ import {
     DummyQuote,
     AdSlot,
     Wrapper
-} from '@demo-page';
+} from '@specless/demo-page';
+
 
 render(() => {
-    
-    
-
     return (
         <Page header="sticky">
             <Content style={{
                 width: '100%'
             }}>
                 <Section>
-                    <AdSlot id="ad-slot" width={1} height={2}/>
+                    <AdSlot id="ad-slot" width={300} height={250}/>
                 </Section>
                 <Wrapper style={{maxWidth: 1120}}>
                     <Sidebar>
