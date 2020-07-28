@@ -42,7 +42,8 @@ module.exports = (process, env, args) => {
         },
         module: {
             rules: []
-        }
+        },
+        devtool: 'cheap-module-source-map'
     }
 
     // Add assets folder alias
@@ -145,8 +146,28 @@ module.exports = (process, env, args) => {
     })
 
     config.module.rules.push({
-        test: /\.less$/,
+        test: /\.css$/,
         use: [
+            {
+                loader: 'raw-loader'
+            }
+        ]
+    })
+
+    let lessConfig = [
+        {
+            loader: 'raw-loader',
+        },
+        {
+            loader: 'less-loader',
+            options: {
+                javascriptEnabled: true
+            }
+        }
+    ]
+
+    if (process === 'demo-pages') {
+        lessConfig = [
             {
                 loader: 'style-loader',
             },
@@ -163,7 +184,13 @@ module.exports = (process, env, args) => {
                 }
             }
         ]
+    }
+
+    config.module.rules.push({
+        test: /\.less$/,
+        use: lessConfig
     })
+
 
     return config
 

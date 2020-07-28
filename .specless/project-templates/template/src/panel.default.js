@@ -1,6 +1,7 @@
 import React from 'react';
 import { Body, Wrapper, Component, Layer } from '@specless/components';
 import placeholderLogo from '@assets/dummy-logo.png';
+import stylesheet from './styles.less';
 
 export const config = {
     name: "Default Panel",
@@ -70,13 +71,13 @@ export class Panel extends Component {
             textAlign: 'center'
         }
 
+        // Change the font size when the layout is 'rectange'
         if (layout.id === 'rectangle') {
             headlineStyles.fontSize = this.spx(24);
         }
 
-
         return (
-            <Body style={{backgroundColor: 'white'}} onClick={this.handleClickThrough}>
+            <Body onClick={this.handleClickThrough} className="body" stylesheet={stylesheet}>
                 <Wrapper>
                     <Layer image={this.url(logoUrl)} style={logoStyles[layout.id]}/>
                     <Layer style={headlineStyles}>{headline}</Layer>

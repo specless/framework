@@ -13,7 +13,8 @@ GenerateSSRPlugin.prototype.apply = (compiler) => {
                 || key === 'data.fetch.js') {
                 const data = compilation.assets[key].source();
                 babel.transform(data, {
-                    "plugins": ["@babel/plugin-transform-modules-commonjs"]
+                    "plugins": ["@babel/plugin-transform-modules-commonjs"],
+                    compact: true
                 }, (err, result) => {
                     if (!err && result) {
                         compilation.assets[`__ssr.${key}`] = {

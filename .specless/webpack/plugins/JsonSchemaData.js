@@ -20,7 +20,6 @@ JsonSchemaData.prototype.apply = (compiler) => {
         let demoExists = false;
         let demoData = data;
         const validDemoData = {};
-        console.log(DEMO_DATA);
         try {
           if (fs.existsSync(DEMO_DATA)) {
             demoExists = true;

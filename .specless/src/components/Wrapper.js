@@ -1,25 +1,19 @@
 import React from 'react';
-import { Context } from './Context';
+import { Component } from './Component';
 
-export class Wrapper extends React.Component {
-    static contextType = Context;
+export class Wrapper extends Component {
     render() {
         const { props } = this;
-        let className = `${this.context._namespace}layout-wrapper`
-        if (props.className) {
-            className = className + ' ' + props.className;
-        }
+
+        const elProps = this.mergeProps({
+            className: `${this.context._namespace}layout-wrapper`
+        })
+
         return (
-            <div {...props} className={className}>
+            <div {...elProps}>
+                {this.renderStyleSheet()}
                 {props.children}
-                {(props.border) && (
-                    <>
-                        <div className={`${this.context._namespace}border specless-border-top`} style={{background: props.border}}/>
-                        <div className={`${this.context._namespace}border specless-border-right`} style={{background: props.border}}/>
-                        <div className={`${this.context._namespace}border specless-border-bottom`} style={{background: props.border}}/>
-                        <div className={`${this.context._namespace}border specless-border-left`} style={{background: props.border}}/>
-                    </>
-                )}
+                {this.renderBorderOverlay()}
             </div>
         )
     }

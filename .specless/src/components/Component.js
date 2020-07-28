@@ -12,14 +12,156 @@ const events = [
     'panelDidCatch'
 ]
 
+const passThroughProps = [
+    // Standard Attrs
+    'accesskey',
+    'align',
+    'background',
+    'bgcolor',
+    'class',
+    'contenteditable',
+    'contextmenu',
+    'draggable',
+    'height',
+    'hidden',
+    'id',
+    'item',
+    'itemprop',
+    'spellcheck',
+    'subject',
+    'tabindex',
+    'title',
+    'valign',
+    'width',
+    // React Specific
+    'className',
+    'style',
+    'htmlFor',
+    'suppressContentEditableWarning',
+    'suppressHydrationWarning',
+    'onChange',
+    'value',
+    'tabIndex',
+    'readOnly',
+    'onClick',
+    'onContextMenu',
+    'onDoubleClick',
+    'onDrag',
+    'onDragEnd',
+    'onDragEnter',
+    'onDragExit',
+    'onDragLeave',
+    'onDragOver',
+    'onDragStart',
+    'onDrop',
+    'onMouseDown',
+    'onMouseEnter',
+    'onMouseLeave',
+    'onMouseMove',
+    'onMouseOut',
+    'onMouseOver',
+    'onMouseUp',
+    'onPointerDown',
+    'onPointerMove',
+    'onPointerUp',
+    'onPointerCancel',
+    'onGotPointerCapture',
+    'onLostPointerCapture',
+    'onPointerEnter',
+    'onPointerLeave',
+    'onPointerOver',
+    'onPointerOut',
+    'onSelect',
+    'onTouchCancel',
+    'onTouchEnd',
+    'onTouchMove',
+    'onTouchStart',
+    'onScroll',
+    'onWheel',
+    'onLoad',
+    'onError',
+    'onAnimationStart',
+    'onAnimationEnd',
+    'onAnimationIteration',
+    'onTransitionEnd',
+    'onToggle',
+    'onInput',
+    'onInvalid',
+    'onReset',
+    'onSubmit',
+    'onFocus',
+    'onBlur',
+    'onKeyDown',
+    'onKeyPress',
+    'onKeyUp',
+]
+
+
 export class Component extends React.Component {
     static contextType = Context;
-    
     constructor(props, context) {
         super(props, context);
         const { api } = this.context;
         for (let key in api) {
             this[key] = api[key];
+        }
+        
+        this.mergeProps = (overrides) => {
+            const newProps = {};
+            for (let key in this.props) {
+                if (passThroughProps.includes(key)) {
+                    newProps[key] = this.props[key];
+                } else if (key.startsWith('data-') || key.startsWith('aria-')) {
+                    newProps[key] = this.props[key];
+                }
+            }
+
+            if (overrides.style) {
+                newProps.style = Object.assign(newProps.style || {}, overrides.style)
+            }
+
+            if (overrides.className && newProps.className) {
+                newProps.className = overrides.className + ' ' + newProps.className;
+            } else if (overrides.className) {
+                newProps.className = overrides.className
+            }
+
+            for (let key in overrides) {
+                if (!['style', 'className'].includes(key)) {
+                    newProps[key] = overrides[key];
+                }
+            }
+
+            newProps.ref = this.props.elementRef;
+
+            return newProps;
+        }
+
+        this.renderStyleSheet = () => {
+            if (this.props.stylesheet) {
+                return <style ref={this.props.styleSheetRef}>{this.props.stylesheet}</style>
+            } else {
+                return <></>
+            }
+        }
+
+        this.renderBorderOverlay = () => {
+            if (this.props.border) {
+                const styles = {
+                    background: this.props.border,
+                    pointerEvents: 'none'
+                }
+                return (
+                    <>
+                        <div className={`${this.context._namespace}border specless-border-top`} style={styles}/>
+                        <div className={`${this.context._namespace}border specless-border-right`} style={styles}/>
+                        <div className={`${this.context._namespace}border specless-border-bottom`} style={styles}/>
+                        <div className={`${this.context._namespace}border specless-border-left`} style={styles}/>
+                    </>
+                )
+            } else {
+                return <></>
+            }
         }
 
         events.forEach(handler => {
