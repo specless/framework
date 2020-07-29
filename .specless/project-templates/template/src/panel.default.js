@@ -40,7 +40,7 @@ export class Panel extends Component {
             if (data.general.logo) {
                 logoUrl = data.general.logo
             }
-            if (data.headline) {
+            if (data.general.headline) {
                 headline = data.general.headline
             }
         }

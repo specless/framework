@@ -2,11 +2,14 @@ import React from './modules/react/specless.js';
 import * as utils from './modules/utils/specless.js';
 import * as components from './modules/components/specless.js';
 import panelModules from '@specless/panels';
-const CONFIG = require('@specless/config');
+import { parseFieldsets } from './parseFieldsets.js';
+import CONFIG from '@specless/config';
 const platform = require('@specless/settings');
 const defaultData = require('@specless/data');
-
+const FIELDSETS = parseFieldsets(CONFIG.fieldsets);
 const panels = {};
+
+console.log(CONFIG);
 for (let key in panelModules) {
     panels[key] = panelModules[key].config || {};
     panels[key].id = key;
@@ -51,7 +54,7 @@ export const meta = {
         exits: CONFIG.exits,
         trackers: CONFIG.trackers
     },
-    fieldsets: CONFIG.fieldsets,
+    fieldsets: FIELDSETS,
     views: CONFIG.views,
     platform,
     defaultData,

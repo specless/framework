@@ -1,6 +1,8 @@
+import { parseFieldsets } from './parseFieldsets.js';
 const CONFIG = require('@specless/config');
 const platform = require('@specless/settings');
 const defaultData = require('@specless/data');
+const FIELDSETS = parseFieldsets(CONFIG.fieldsets);
 
 export const meta = {
     type: PROJECT_TYPE,
@@ -20,7 +22,7 @@ export const meta = {
         exits: CONFIG.exits,
         trackers: CONFIG.trackers
     },
-    fieldsets: CONFIG.fieldsets,
+    fieldsets: FIELDSETS,
     views: CONFIG.views,
     platform,
     defaultData,

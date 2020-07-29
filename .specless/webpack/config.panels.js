@@ -20,8 +20,8 @@ module.exports = (env, args) => {
     config.entry['data.fetch'] = DYNAMIC_DATA_MODULE;
 
     config.output.library = 'SPECLESS_PANEL_COMPONENT';
-    config.plugins.push(new JsonSchemaData());
     config.plugins.push(new GenerateMetaData());
+    config.plugins.push(new JsonSchemaData());
 
     return config
 }

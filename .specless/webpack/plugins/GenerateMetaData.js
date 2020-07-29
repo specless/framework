@@ -8,6 +8,7 @@ GenerateMetaData.prototype.apply = (compiler) => {
     compiler.plugin('emit', function(compilation, callback) {
         for (let key in compilation.assets) {
             if (key === '__ssr.data.meta.js') {
+                console.log('compiling meta data');
                 try {
                     const mod = requireFromString(compilation.assets[key].source())
                     const data = JSON.stringify(mod.meta);
@@ -21,6 +22,7 @@ GenerateMetaData.prototype.apply = (compiler) => {
                     }
                     delete compilation.assets['__ssr.data.meta.js'];
                     delete compilation.assets['data.meta.js'];
+                    delete compilation.assets['data.meta.js.map'];
                 } catch (err) {
                     console.error(err);
                 }

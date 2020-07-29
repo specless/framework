@@ -9,8 +9,8 @@ module.exports = (env, args) => {
     config.entry['data.meta'] = PLACEMENT_META_ENTRY;
     config.entry['index'] = PLACEMENT_MODULE;
     config.output.library = 'SPECLESS_PLACEMENT';
-    config.plugins.push(new JsonSchemaData());
     config.plugins.push(new GenerateMetaData());
+    config.plugins.push(new JsonSchemaData());
     return config
 }
 

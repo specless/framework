@@ -1,4 +1,4 @@
-module.exports = [
+export const trackers = [
     {
         "id": "custom_tracker",
         "name": "Custom Tracking Event",
