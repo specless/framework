@@ -9,7 +9,6 @@ const defaultData = require('@specless/data');
 const FIELDSETS = parseFieldsets(CONFIG.fieldsets);
 const panels = {};
 
-console.log(CONFIG);
 for (let key in panelModules) {
     panels[key] = panelModules[key].config || {};
     panels[key].id = key;
