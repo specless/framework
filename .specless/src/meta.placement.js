@@ -1,5 +1,5 @@
 import { parseFieldsets } from './parseFieldsets.js';
-const CONFIG = require('@specless/config');
+import CONFIG from '@specless/config';
 const platform = require('@specless/settings');
 const defaultData = require('@specless/data');
 const FIELDSETS = parseFieldsets(CONFIG.fieldsets);

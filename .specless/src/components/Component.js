@@ -101,6 +101,14 @@ export class Component extends React.Component {
     static contextType = Context;
     constructor(props, context) {
         super(props, context);
+        this.data = context.data;
+        this.constants = context.constants;
+        this.panel = context.panel;
+        this.layout = context.layout;
+        this.width = context.width;
+        this.height = context.height;
+        
+
         const { api } = this.context;
         for (let key in api) {
             this[key] = api[key];
@@ -172,8 +180,8 @@ export class Component extends React.Component {
 
 
         if (typeof this.panelDidConnect === 'function') {
-            api.onceConnected().then(() => {
-                this.panelDidConnect();
+            api.onceConnected().then((csf) => {
+                this.panelDidConnect(csf);
             })
         }
 

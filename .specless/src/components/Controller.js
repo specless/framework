@@ -16,6 +16,7 @@ const publicApiMethods = [
     'onceLoaded',
     'onPageGeom',
     'onPanelGeom',
+    'onPanelState',
     'onPanelResize',
     'onPanelError',
     'fetchDynamicData',
@@ -66,6 +67,7 @@ export class Controller extends React.Component {
             this.setState({
                 panel: newPanelData
             }, callback)
+            this.trigger('panelState', newPanelData);
             if (!dontSendToOuter && this.updateStateStore) {
                 this.updateStateStore(newPanelData)
             }
@@ -204,6 +206,10 @@ export class Controller extends React.Component {
                 next: callback
             })
         })
+    }
+
+    onPanelState = (callback) => {
+        return this.on('panelState', callback);
     }
 
     onLifespanEvent = (callback) => {
