@@ -6,3 +6,4 @@ if (typeof window === 'object') {
 }
 export const getLayout = utils.getLayout;
 export const createUseStyles = utils.createUseStyles;
+export const parseVAST = utils.parseVAST;

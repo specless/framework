@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { Context } from './Context';
 import { getLayout, createUseStyles }  from '@specless/utils';
+import { parseVAST } from '../modules/utils/panels';
 
 const publicApiMethods = [
     'useStyles',
@@ -23,7 +24,8 @@ const publicApiMethods = [
     'fetchVAST',
     'trackVideo',
     'createExit',
-    'onLifespanEvent'
+    'onLifespanEvent',
+    'parseVAST'
 ]
 
 const defaultPanelState = {
@@ -43,6 +45,15 @@ const defaultPanelState = {
     forcePaused: false,
     isTagless: false,
     error: null
+}
+
+const isURL = (string) => {
+    try {
+        new URL(string);
+    } catch (_) {
+        return false;  
+    }
+    return true;
 }
 
 export class Controller extends React.Component {
@@ -175,7 +186,7 @@ export class Controller extends React.Component {
                 || asset.startsWith('https://')
                 || asset.startsWith('//')
                 || asset.startsWith('data:')
-                || asset.startsWith('vastTagUrl')
+                || asset.startsWith('vast://')
             )
         ) {
             return asset
@@ -190,6 +201,25 @@ export class Controller extends React.Component {
             return asset
         }
         return constants.templateAssetsPath + '/' + asset;
+    }
+
+    parseVAST = (source, mediaTypes) => {
+        return new Promise((resolve, reject) => {
+            this.connectionPromise.then(() => {
+                const config = {
+                    constants: this.state.constants,
+                    mediaTypes
+                }
+                if (isURL(source)) {
+                    config.url = source
+                } else {
+                    config.xml = source
+                }
+                parseVAST(config).then(vast => {
+                    resolve(vast)
+                })
+            })
+        })
     }
 
     onPageGeom = (callback) => {

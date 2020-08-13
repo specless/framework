@@ -17,3 +17,4 @@ export { useConnection } from '../../template/useConnection';
 export { useCsf } from '../../template/useCsf';
 export { useLoaded } from '../../template/useLoaded';
 export { useMounted } from '../../template/useMounted';
+export { useVAST } from '../../template/useVAST';

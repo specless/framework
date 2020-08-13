@@ -44,7 +44,7 @@ const generateFiles = (config) => {
                             fs.writeFile(README_DESTINATION, readme, (readmeError) => {
                                 if (!readmeError) {
                                     console.log('Generating project config specless.json file...')
-                                    fs.writeFile(SETTINGS_FILE, JSON.stringify(config), (settingsError) => {
+                                    fs.writeFile(SETTINGS_FILE, JSON.stringify(config, null, 4), (settingsError) => {
                                         if (!settingsError) {
                                             console.log('Project successfully setup!')
                                         } else {

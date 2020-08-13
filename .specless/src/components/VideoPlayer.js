@@ -2,6 +2,7 @@ import React from 'react';
 import { Context } from './Context';
 import { Layer } from './Layer';
 import { IoIosPlay as PlayIcon } from 'react-icons/io';
+import { parseVAST } from '@specless/utils';
 
 export class VideoPlayer extends React.Component {
     static contextType = Context;
@@ -15,10 +16,8 @@ export class VideoPlayer extends React.Component {
         url: this.props.url,
         trackingId: this.props.trackingId || this.props.url,
         wrapper: React.createRef(),
-        vastData: null,
-        vastUrl: null,
+        vast: null,
         error: null,
-        quality: null,
     }
 
     handlePlay = () => {
@@ -45,8 +44,16 @@ export class VideoPlayer extends React.Component {
         
         if (url !== state.url) {
             hasChanged = true;
-            state.url = this.props.url
-            state.quality = this.chooseQuality();
+            state.url = this.props.url;
+            if (this.props.url && this.props.url.startsWith('vast://')) {
+                state.vast = null;
+                const vastURL = this.props.url.replace('vast://', 'https://');
+                this.context.api.parseVAST(vastURL, this.props.mediaType).then(vast => {
+                    this.setState({
+                        vast
+                    })
+                })
+            }
         }
 
         if (trackingId !== state.trackingId) {
@@ -60,95 +67,19 @@ export class VideoPlayer extends React.Component {
         }
     }
 
-    chooseQuality = () => {
-        let width = this.context.width;
-        if (Number(this.props.width)) {
-            width = this.props.width
-        } else if (this.state.wrapper.current && this.state.wrapper.current.offsetWidth) {
-            width = this.state.wrapper.current.offsetWidth;
-        }
-        if (['max', 'best', 'good', 'eco', 'low'].includes(this.props.quality)) {
-            return this.props.quality;
-        } else {
-            if (width < 450) {
-                return 'low'
-            } else if (width < 630) {
-                return 'eco'
-            } else if (width < 900) {
-                return 'good'
-            } else if (width < 1200) {
-                return 'best'
-            } else {
-                return 'max'
-            }
-        }
-    }
-
-    detectVideoSupport = () => {
-        const formats = {
-            'video/webm': [
-                'video/webm; codecs="vp8, vorbis"',
-                'video/webm; codecs="vp9"'
-            ],
-            'video/ogg': [
-                'video/ogg; codecs="theora"'
-            ]
-        }
-        const support = ['video/mp4'];
-        try {
-            const video = document.createElement('video');
-            for (let type in formats) {
-                let allowed = true;
-                formats[type].forEach(codec => {
-                    const canPlay = video.canPlayType(codec);
-                    if (allowed && canPlay !== 'probably') {
-                        allowed = false;
-                    }
-                })
-                if (allowed) {
-                    support.push(type)
-                }
-            }
-        } catch(err) {
-
-        }
-        return support;
-
-    }
-
     componentDidMount() {
         const url = `${this.context.constants.templateLibraryRoot}/assets/specless.VideoPlayer.js`;
-        const importPromise = import(/* webpackIgnore: true */url);
-        const quality = this.chooseQuality();
-        importPromise.then(mod => {
+        import(/* webpackIgnore: true */url).then(mod => {
             this.setState({
                 Player: mod.default,
-                tracker: this.context.api.trackVideo(this.state.trackingId),
-                quality: quality
+                tracker: this.context.api.trackVideo(this.state.trackingId)
             })
-        })
-        if (this.props.url && this.props.url.startsWith('vastTagUrl=')) {
-            const fileTypes = this.detectVideoSupport().join(',');
-            const vastTag = escape(this.props.url.replace('vastTagUrl=', ''));
-            console.log(vastTag);
-            fetch(`https://server.specless.app/vast?cb=${Date.now()}&fileTypes=${fileTypes}&vastTagUrl=${vastTag}`).then(response => {
-                response.json().then(vast => {
-                    console.log(vast);
-                    let vastUrl;
-                    if (vast.media && vast.media[quality] && vast.media[quality].fileURL) {
-                        vastUrl = vast.media[quality].fileURL;
-                    } else if (vast.media) {
-                        for (key in vast.media) {
-                            if (vast.media[key] && vast.media[key].fileURL) {
-                                vastUrl = vast.media[key].fileURL;
-                                break
-                            }
-                        }
-                    }
-                    this.setState({
-                        vastData: vast,
-                        vastUrl: vastUrl
-                    })
+        });
+        if (this.props.url && this.props.url.startsWith('vast://')) {
+            const vastURL = this.props.url.replace('vast://', 'https://');
+            this.context.api.parseVAST(vastURL, this.props.mediaType).then(vast => {
+                this.setState({
+                    vast: vast
                 })
             })
         }
@@ -156,10 +87,6 @@ export class VideoPlayer extends React.Component {
 
     render() {
         const Player = this.state.Player;
-        let waitForVast = false;
-        if (this.props.url && this.props.url.startsWith('vastTagUrl=')) {
-            waitForVast = true;
-        }
 
         const styles = this.context.api.useStyles({
             'video-player-wrapper': {
@@ -189,11 +116,7 @@ export class VideoPlayer extends React.Component {
         })
 
         const wrapperProps = {
-            width: this.props.width,
-            height: this.props.height,
-            top: this.props.top,
-            bottom: this.props.bottom,
-            left: this.props.left,
+            style: this.props.style,
             onHover: this.props.onHover,
             onMouseEnter: this.props.onMouseEnter,
             onMouseLeave: this.props.onMouseLeave,
@@ -210,15 +133,13 @@ export class VideoPlayer extends React.Component {
         playerProps.playing = this.state.playing;
         playerProps.url = this.state.url;
         playerProps.trackingId = this.state.trackingId;
+        playerProps.vast = this.state.vast;
 
-        if (this.state.vastUrl) {
-            playerProps.url = this.state.vastUrl;
-        }
 
-        if (!Player || (waitForVast && !this.state.vastUrl)) {
+        if (!Player) {
             return (
                 <Layer {...wrapperProps} elementRef={this.state.wrapper}>
-                    <Layer className="video-poster-image" width="100%" height="100%" image={this.props.posterImage} top={0} left={0} onClick={this.handlePlay}>
+                    <Layer className="video-poster-image" style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={this.handlePlay}>
                         <PlayIcon/>
                     </Layer>
                 </Layer>
@@ -227,7 +148,7 @@ export class VideoPlayer extends React.Component {
         
         return (
             <Layer {...wrapperProps} elementRef={this.state.wrapper}>
-                <Player {...playerProps} context={this.context} tracker={this.state.tracker} wrapper={this.state.wrapper} ref={this.props.playerRef} error={this.state.error} quality={this.state.quality} vastData={this.state.vastData}/>
+                <Player {...playerProps} context={this.context} tracker={this.state.tracker} wrapper={this.state.wrapper} ref={this.props.playerRef} error={this.state.error}/>
             </Layer>
         )
     }
