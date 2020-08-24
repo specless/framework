@@ -3,127 +3,164 @@ import ReactPlayer from 'react-player';
 import players from 'react-player/lib/players';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { Layer, Component } from '@specless/components';
-import {
-    IoIosPause as PauseIcon,
-    IoIosPlay as PlayIcon,
-    IoIosWarning as ErrorIcon
-} from 'react-icons/io';
-import {
-    FiVolumeX as MutedIcon,
-    FiVolume2 as UnMutedIcon
-} from 'react-icons/fi';
-import {
-    AiOutlineLoading3Quarters as LoadingIcon
-} from 'react-icons/ai';
-import { VASTTracker } from 'vast-client';
+import { GenIcon } from 'react-icons/lib';
+// import {
+//     IoIosPause as PauseIcon,
+//     IoIosPlay as PlayIcon,
+//     IoIosWarning as ErrorIcon,
+//     IoIosRefresh as RestartIcon
+// } from 'react-icons/io';
+// import {
+//     FiVolumeX as MutedIcon,
+//     FiVolume2 as UnMutedIcon
+// } from 'react-icons/fi';
+// import {
+//     AiOutlineLoading3Quarters as LoadingIcon
+// } from 'react-icons/ai';
 
-const config = {
-    youtube: {
-        playerVars: {
-            modestbranding: 1
-        }
-    }
+const PauseIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M199.9 416h-63.8c-4.5 0-8.1-3.6-8.1-8V104c0-4.4 3.6-8 8.1-8h63.8c4.5 0 8.1 3.6 8.1 8v304c0 4.4-3.6 8-8.1 8zM375.9 416h-63.8c-4.5 0-8.1-3.6-8.1-8V104c0-4.4 3.6-8 8.1-8h63.8c4.5 0 8.1 3.6 8.1 8v304c0 4.4-3.6 8-8.1 8z"}}]})(props);
+}
+const PlayIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M128 104.3v303.4c0 6.4 6.5 10.4 11.7 7.2l240.5-151.7c5.1-3.2 5.1-11.1 0-14.3L139.7 97.2c-5.2-3.3-11.7.7-11.7 7.1z"}}]})(props);
+}
+const ErrorIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M228.9 79.9L51.8 403.1C40.6 423.3 55.5 448 78.9 448h354.3c23.3 0 38.2-24.7 27.1-44.9L283.1 79.9c-11.7-21.2-42.5-21.2-54.2 0zM273.6 214L270 336h-28l-3.6-122h35.2zM256 402.4c-10.7 0-19.1-8.1-19.1-18.4s8.4-18.4 19.1-18.4 19.1 8.1 19.1 18.4-8.4 18.4-19.1 18.4z"}}]})(props);
+}
+const RestartIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm0 336.1c-70.7 0-128-57.3-128-128.1s57.3-128.1 128-128.1v-37c0-6.4 7.1-10.2 12.4-6.7l72.9 52.6c4.9 3.3 4.7 10.6-.4 13.6L268 196.7c-5.3 3.1-12-.8-12-6.9v-41.9c-60.3 0-109.2 49.7-108.1 110.2 1.1 59.1 50.3 106.7 109.5 106 55.9-.7 101.8-43.7 106.3-99 .4-5.2 4.7-9.1 9.9-9.1 5.8 0 10.4 4.9 9.9 10.7-5.4 66-60.4 117.4-127.5 117.4z"}}]})(props);
+}
+const MutedIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":"2","strokeLinecap":"round","strokeLinejoin":"round"},"child":[{"tag":"polygon","attr":{"points":"11 5 6 9 2 9 2 15 6 15 11 19 11 5"}},{"tag":"line","attr":{"x1":"23","y1":"9","x2":"17","y2":"15"}},{"tag":"line","attr":{"x1":"17","y1":"9","x2":"23","y2":"15"}}]})(props);
+}
+const UnMutedIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":"2","strokeLinecap":"round","strokeLinejoin":"round"},"child":[{"tag":"polygon","attr":{"points":"11 5 6 9 2 9 2 15 6 15 11 19 11 5"}},{"tag":"path","attr":{"d":"M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"}}]})(props);
+}
+const LoadingIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 1024 1024"},"child":[{"tag":"path","attr":{"d":"M512 1024c-69.1 0-136.2-13.5-199.3-40.2C251.7 958 197 921 150 874c-47-47-84-101.7-109.8-162.7C13.5 648.2 0 581.1 0 512c0-19.9 16.1-36 36-36s36 16.1 36 36c0 59.4 11.6 117 34.6 171.3 22.2 52.4 53.9 99.5 94.3 139.9 40.4 40.4 87.5 72.2 139.9 94.3C395 940.4 452.6 952 512 952c59.4 0 117-11.6 171.3-34.6 52.4-22.2 99.5-53.9 139.9-94.3 40.4-40.4 72.2-87.5 94.3-139.9C940.4 629 952 571.4 952 512c0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 0 0-94.3-139.9 437.71 437.71 0 0 0-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.2C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3s-13.5 136.2-40.2 199.3C958 772.3 921 827 874 874c-47 47-101.8 83.9-162.7 109.7-63.1 26.8-130.2 40.3-199.3 40.3z"}}]})(props);
 }
 
 const styles = {
     '@global': {
-        '.video-player': {
-            position: 'absolute',
-            top: -1,
-            left: -1,
-            zIndex: 0
-        },
-        '@keyframes spin': {
+        '@keyframes specless-video-spin': {
             from: {
                 transform: 'rotate(0deg)'
             },
             to: {
                 transform: 'rotate(360deg)'
             }
-        },
-        '.video-player > div': {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-        '.video-overlay': {
-            zIndex: 1
-        },
-        '.video-controls': {
-            color: '#fff',
-            zIndex: 2
-        },
-        '.video-poster-image': {
-            zIndex: 3
-        },
-        '.video-endframe': {
-            zIndex: 4
-        },
-        '.video-controls-button, .video-loading-icon': {
-            fontSize: 18,
-            margin: 6,
-            opacity: 0.8,
-            '&:hover': {
-                opacity: 1
+        }
+    },
+    'videoPlayer': {
+        position: 'absolute',
+        top: -1,
+        left: -1,
+        zIndex: 0,
+        '@global': {
+            '> div': {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
             },
-            '&.toggle-playback': {
-                left: 0
+        }
+    },
+    'videoOverlay': {
+        zIndex: 1
+    },
+    'videoControls': {
+        color: (props) => {
+            return props.controlsColor || '#fff';
+        },
+        zIndex: 2,
+        '@global': {
+            '.CircularProgressbar' : {
+                width: '100%',
+                verticalAlign: 'middle'
             },
-            '&.toggle-mute': {
-                right: 0
+            '.CircularProgressbar .CircularProgressbar-path': {
+                stroke: (props) => {
+                    return props.controlsColor || '#fff';
+                },
+                strokeLinecap: 'round',
+                transition: 'stroke-dashoffset 0.5s ease 0s',
+            },
+            '.CircularProgressbar .CircularProgressbar-trail': {
+                stroke: 'transparent',
+                strokeLinecap: 'round'
+            },
+            '.CircularProgressbar .CircularProgressbar-text': {
+                fill: '#3e98c7',
+                fontSize: 20,
+                dominantBaseline: 'middle',
+                textAnchor: 'middle'
+            },
+            '.CircularProgressbar .CircularProgressbar-background': {
+                fill: 'rgba(102, 102, 102,0.35)'
+            },
+            '.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background': {
+                fill: '#3e98c7'
+            },
+            '.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text': {
+                fill: (props) => {
+                    return props.controlsColor || '#fff';
+                }
+            },
+            '.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path': {
+                stroke: (props) => {
+                    return props.controlsColor || '#fff';
+                }
+            },
+            '.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail' : {
+                stroke: 'transparent'
             }
+        }
+    },
+    'videoPosterImage': {
+        zIndex: 3
+    },
+    'videoEndframe': {
+        zIndex: 1,
+    },
+    'videoButton': {
+        fontSize: 18,
+        margin: 6,
+        opacity: 0.8,
+        '&:hover': {
+            opacity: 1
         },
-        '.video-loading-icon': {
-            color: '#fff',
-            zIndex: 4,
-            top: 0,
-            left: 0,
+        '&.toggle-playback': {
+            left: 0
         },
-        '.video-loading-icon .spinning': {
-            animationName: 'spin',
-            animationDuration: '2500ms',
-            animationIterationCount: 'infinite',
-            animationTimingFunction: 'linear'
+        '&.toggle-mute': {
+            right: 0
         },
-        '.video-controls-button .icon': {
-            position: 'relative',
-            '&.play': {
-                left: '1px'
+        '@global': {
+            '.icon': {
+                position: 'relative',
+                '&.play': {
+                    left: '1px'
+                },
+                '&.restart': {
+                    top: '-1px',
+                    transform: 'scaleX(-1)'
+                }
             }
+        }
+    },
+    'videoLoadingIcon': {
+        color: (props) => {
+            return props.controlsColor || '#fff';
         },
-        '.video-controls .CircularProgressbar' : {
-            width: '100%',
-            verticalAlign: 'middle'
-        },
-        '.video-controls .CircularProgressbar .CircularProgressbar-path': {
-            stroke: '#fff',
-            strokeLinecap: 'round',
-            transition: 'stroke-dashoffset 0.5s ease 0s',
-        },
-        '.video-controls .CircularProgressbar .CircularProgressbar-trail': {
-            stroke: 'transparent',
-            strokeLinecap: 'round'
-        },
-        '.video-controls .CircularProgressbar .CircularProgressbar-text': {
-            fill: '#3e98c7',
-            fontSize: 20,
-            dominantBaseline: 'middle',
-            textAnchor: 'middle'
-        },
-        '.video-controls .CircularProgressbar .CircularProgressbar-background': {
-            fill: 'rgba(102, 102, 102,0.35)'
-        },
-        '.video-controls .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background': {
-            fill: '#3e98c7'
-        },
-        '.video-controls .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text': {
-            fill: '#fff'
-        },
-        '.video-controls .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path': {
-            stroke: '#fff'
-        },
-        '.video-controls .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail' : {
-            stroke: 'transparent'
+        zIndex: 4,
+        top: 0,
+        left: 0,
+        '@global': {
+            '.spinning': {
+                animationName: 'specless-video-spin',
+                animationDuration: '2500ms',
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'linear'
+            }
         }
     }
 }
@@ -181,40 +218,66 @@ class VideoPlayer extends Component {
     }
 
     getVideoQuality = () => {
-        if (['low', 'eco', 'good', 'best'].includes(this.props.quality)) {
+        if (['low', 'eco', 'good', 'best', 'max', 'original'].includes(this.props.quality)) {
             return this.props.quality
         }
 
         let width = 480;
         let height = 269;
+        let hiDPI = false;
         if (this.props.wrapper && this.props.wrapper.current) {
             const rect = this.props.wrapper.current.getBoundingClientRect();
             let scale = window.devicePixelRatio;
             if (scale > 1.5) {
-                scale = 1.5
+                scale = 1.5;
+                hiDPI = true;
             }
-            width = rect.width * scale;
-            height = rect.height * scale;
+            width = rect.width;
+            height = rect.height;
         }
         const effectiveType = (navigator.connection && navigator.connection.effectiveType) || '4g'
         const pDim = width >= height ? width : height
+        
         if (effectiveType.includes('2g')){
             return 'low'
         }
-        if (effectiveType == '3g' && pDim >= 360){
+        
+        if (effectiveType.includes('3g')) {
             return 'eco'
         }
-        // NOTE: Order is important
-        if (pDim < 360){
-            return 'low'
+
+        if (pDim < 361){
+            if (hiDPI) {
+                return 'eco'
+            } else {
+                return 'low'
+            }
         }
-        if (pDim < 480){
-            return 'eco'
+        if (pDim < 481){
+            if (hiDPI) {
+                return 'good'
+            } else {
+                return 'eco'
+            }
         }
-        if (pDim < 576){
-            return 'good'
+        
+        if (pDim < 577){
+            if (hiDPI) {
+                return 'best'
+            } else {
+                return 'good'
+            }
         }
-        return 'best'
+
+        if (pDim < 721){
+            if (hiDPI) {
+                return 'max'
+            } else {
+                return 'best'
+            }
+        }
+
+        return 'max'
     }
 
     vastTrackers = {};
@@ -258,33 +321,33 @@ class VideoPlayer extends Component {
     }
 
     adLifespanEventRecorded(event) {
-        if (event.data && event.data.id === this.props.trackingId) {
+        if (event.data && event.data.id === this.props.id) {
             if (this.state.assetType === 'vast' && this.props.vast && this.props.vast.tracker) {
-                if (!this.vastTrackers[this.props.trackingId]) {
-                    this.vastTrackers[this.props.trackingId] = this.props.vast.tracker;
-                    const events = [
-                        'complete',
-                        'clickthrough',
-                        'creativeView',
-                        'firstQuartile',
-                        'midpoint',
-                        'mute',
-                        'pause',
-                        'resume',
-                        'rewind',
-                        'start',
-                        'thirdQuartile',
-                        'unmute'
-                    ]
-                    this.props.vast.tracker.on('clickthrough', (url) => {
-                        const clickUrl = url || this.props.vast.creative.videoClickThroughURLTemplate;
-                        if (this.props.onClick) {
-                            this.props.onClick(clickUrl)
-                        }
-                    })
-                    this.vastTrackers[this.props.trackingId].trackImpression();
-                }
-                this.trackVastEvent(this.vastTrackers[this.props.trackingId], event);
+                
+                this.props.vast.tracker.on('clickthrough', (url) => {
+                    const clickUrl = url || this.props.vast.creative.videoClickThroughURLTemplate;
+                    if (this.props.onClick) {
+                        this.props.onClick({
+                            ...this.externalAPI,
+                            clickUrl: clickUrl
+                        })
+                    }
+                })
+                
+                this.trackVastEvent(this.props.vast.tracker, event);
+
+                // this.vastTrackers[this.props.id].trackImpression();
+                // if (!this.vastTrackers[this.props.id]) {
+                //     this.vastTrackers[this.props.id] = this.props.vast.tracker;
+                //     this.props.vast.tracker.on('clickthrough', (url) => {
+                //         const clickUrl = url || this.props.vast.creative.videoClickThroughURLTemplate;
+                //         if (this.props.onClick) {
+                //             this.props.onClick(clickUrl)
+                //         }
+                //     })
+                //     this.vastTrackers[this.props.id].trackImpression();
+                // }
+                // this.trackVastEvent(this.vastTrackers[this.props.id], event);
             }
         }
     }
@@ -316,39 +379,44 @@ class VideoPlayer extends Component {
     player = React.createRef();
 
     tracker = {
-        play: (trusted) => {
+        play: (trusted, data) => {
             this.props.tracker.then(tracker => {
-                tracker.play(trusted)
+                tracker.play(trusted, data)
             })
         },
-        pause: (trusted) => {
+        pause: (trusted, data) => {
             this.props.tracker.then(tracker => {
-                tracker.pause(trusted)
+                tracker.pause(trusted, data)
             })
         },
-        mute: (trusted) => {
+        mute: (trusted, data) => {
             this.props.tracker.then(tracker => {
-                tracker.mute(trusted)
+                tracker.mute(trusted, data)
             })
         },
-        unmute: (trusted) => {
+        unmute: (trusted, data) => {
             this.props.tracker.then(tracker => {
-                tracker.unmute(trusted)
+                tracker.unmute(trusted, data)
             })
         },
-        timeupdate: (timestamp) => {
+        timeupdate: (timestamp, data) => {
             this.props.tracker.then(tracker => {
-                tracker.timeupdate(timestamp)
+                tracker.timeupdate(timestamp, data)
             })
         },
-        durationchange: (duration) => {
+        durationchange: (duration, data) => {
             this.props.tracker.then(tracker => {
-                tracker.durationchange(duration)
+                tracker.durationchange(duration, data)
             })
         },
-        error: (err) => {
+        error: (message, data) => {
             this.props.tracker.then(tracker => {
-                tracker.error(err)
+                tracker.error(message, data)
+            })
+        },
+        metadataupdate: (data) => {
+            this.props.tracker.then(tracker => {
+                tracker.metadataupdate(data)
             })
         }
     };
@@ -372,21 +440,13 @@ class VideoPlayer extends Component {
         })
     }
 
-    playVideo = () => {
-        this.play(true);
-    }
-
-    pauseVideo = () => {
-        this.pause(true)
-    }
-
     handleClick = (e) => {
         this.pause(true);
         if (this.props.onClick) {
             if (this.props.vast && this.props.vast.tracker) {
                 this.props.vast.tracker.click(e)
             } else {
-                this.props.onClick()
+                this.props.onClick(this.externalAPI);
             }
         }
     }
@@ -470,10 +530,17 @@ class VideoPlayer extends Component {
             playerType: getPlayerType(this.state.url),
             quality: this.getVideoQuality()
         }, () => {
-            this.props.context.api.track('video_meta_data', {
+            this.tracker.metadataupdate({
+                url: this.state.url,
                 assetType: this.state.assetType,
-                quality: this.state.quality
+                playerType: this.state.playerType,
+                quality: this.state.quality,
+                autoplay: this.props.playing
             })
+
+            if (this.props.onSetup) {
+                this.props.onSetup(this.externalAPI)
+            }
         })
 
         
@@ -488,7 +555,9 @@ class VideoPlayer extends Component {
 
     componentWillUnmount() {
         this.mounted = false;
-        this.observer.disconnect();
+        if (this.observer) {
+            this.observer.disconnect();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -504,6 +573,17 @@ class VideoPlayer extends Component {
                 loaded: 0,
                 loadedSeconds: 0,
                 ended: false,
+            }, () => {
+                this.tracker.metadataupdate({
+                    url: this.state.url,
+                    assetType: this.state.assetType,
+                    playerType: this.state.playerType,
+                    quality: this.state.quality,
+                    autoplay: this.props.playing
+                })
+                if (this.props.onSetup) {
+                    this.props.onSetup(this.externalAPI)
+                }
             })
         }
 
@@ -516,7 +596,7 @@ class VideoPlayer extends Component {
     
     render() {
         let error;
-        this.props.context.api.useStyles(styles);
+        const classNames = this.props.context.api.useStyles(styles, this.props);
         const propNames = [
             'playing',
             'loop',
@@ -528,6 +608,21 @@ class VideoPlayer extends Component {
         ]
         
         const playerProps = {};
+        
+        const config = {
+            youtube: {
+                playerVars: {
+                    modestbranding: 1,
+                    controls: 1,
+                    widget_referrer: this.constants.pageDomain,
+                    rel: 0,
+                    playsinline: 1,
+                    fs: 0,
+                    color: 'white',
+                    disablekb: 1
+                }
+            }
+        }
 
         for (let key in this.props) {
             if (propNames.includes(key)) {
@@ -543,8 +638,8 @@ class VideoPlayer extends Component {
         playerProps.playing = this.state.playing;
         playerProps.ref = this.player;
         playerProps.progressInterval = 200;
-        playerProps.className = 'video-player';
-        playerProps.config = config;
+        playerProps.className = classNames.videoPlayer;
+        playerProps.config = Object.assign({}, config, this.props.config);
 
         if (this.state.assetType === 'hosted' && this.props.quality) {
             playerProps.url = this.state.url + '?quality=' + this.props.quality;
@@ -556,7 +651,7 @@ class VideoPlayer extends Component {
                 ready: true
             }, () => {
                 if (this.props.onReady) {
-                    this.props.onReady()
+                    this.props.onReady(this.externalAPI)
                 }
             })
         }
@@ -566,13 +661,16 @@ class VideoPlayer extends Component {
                 started: true
             }, () => {
                 if (this.props.onStart) {
-                    this.props.onStart()
+                    this.props.onStart(this.externalAPI)
                 }
             })
         }
 
         playerProps.onPlay = () => {
-            this.tracker.play(this.state.lastTrusted);
+            this.tracker.play(this.state.lastTrusted, {
+                resume: (this.state.hasPlayed && !this.state.ended),
+                rewind: (this.state.hasPlayed && this.state.ended)
+            });
             this.updateState({
                 playing: true,
                 ended: false,
@@ -581,7 +679,7 @@ class VideoPlayer extends Component {
                 lastTrusted: undefined
             }, () => {
                 if (this.props.onPlay) {
-                    this.props.onPlay()
+                    this.props.onPlay(this.externalAPI)
                 }
             })
         }
@@ -593,7 +691,7 @@ class VideoPlayer extends Component {
                 lastTrusted: undefined
             }, () => {
                 if (this.props.onPause) {
-                    this.props.onPause()
+                    this.props.onPause(this.externalAPI)
                 }
             })
         }
@@ -613,7 +711,7 @@ class VideoPlayer extends Component {
                     loadedSeconds,
                 }, () => {
                     if (this.props.onProgress) {
-                        this.props.onProgress({ played, loaded, playedSeconds, loadedSeconds})
+                        this.props.onProgress(this.externalAPI)
                     }
                 })
             }
@@ -625,7 +723,7 @@ class VideoPlayer extends Component {
                 duration
             }, () => {
                 if (this.props.onDuration) {
-                    this.props.onDuration(duration)
+                    this.props.onDuration(this.externalAPI)
                 }
             })
         }
@@ -635,7 +733,7 @@ class VideoPlayer extends Component {
                 buffering: true
             }, () => {
                 if (this.props.onBuffer) {
-                    this.props.onBuffer()
+                    this.props.onBuffer(this.externalAPI)
                 }
             })
         }
@@ -645,20 +743,45 @@ class VideoPlayer extends Component {
                 buffering: false
             }, () => {
                 if (this.props.onBufferEnd) {
-                    this.props.onBufferEnd()
+                    this.props.onBufferEnd(this.externalAPI)
                 }
             })
         }
 
         playerProps.onError = (err) => {
-            this.tracker.error(err);
+            const error = {
+                code: 405
+            }
+            
+            if (err.target && err.target.error) {
+                if (err.target.error.code === 1) {
+                    error.message = 'MediaFile Display Error: Request Aborted by User'
+                } else if (err.target.error.code === 2) {
+                    error.message = 'MediaFile Display Error: Network Error'
+                } else if (err.target.error.code === 3) {
+                    error.message = 'MediaFile Display Error: Decode Error'
+                } else if (err.target.error.code === 4) {
+                    error.message = 'MediaFile Display Error: Source Not Supported'
+                } else {
+                    error.message = 'MediaFile Display Error: Playback Error'
+                }
+            }
+
+            this.tracker.error(error.message, {
+                code: error.code
+            });
+
+            if (this.props.vast && this.props.vast.tracker) {
+                this.props.vast.tracker.errorWithCode(error.code)
+            }
+
             this.updateState({
-                error: true,
+                error: error,
                 playing: false,
                 buffering: false
             }, () => {
                 if (this.props.onError) {
-                    this.props.onError(err)
+                    this.props.onError(this.externalAPI)
                 }
             })
         }
@@ -674,7 +797,7 @@ class VideoPlayer extends Component {
                 playing: false
             }, () => {
                 if (this.props.onError) {
-                    this.props.onEnded()
+                    this.props.onEnded(this.externalAPI)
                 }
             })
         }
@@ -685,6 +808,10 @@ class VideoPlayer extends Component {
 
         if (this.props.pauseWhenNotVisible && !this.state.inView) {
             playerProps.playing = false;
+        }
+
+        if (this.state.error) {
+            error = this.state.error
         }
 
         if (this.state.assetType === 'hosted') {
@@ -701,76 +828,108 @@ class VideoPlayer extends Component {
             playerProps.url = this.state.url;
         }
 
-        console.log(this.state.quality);
+        this.externalAPI = {
+            ...this.state,
+            play: () => this.play(true),
+            pause: () => this.pause(true),
+            mute: this.mute,
+            unMute: this.unMute,
+            toggleMute: () => this.toggleMute(true),
+            togglePlayback: () => this.togglePlayback(true),
+            setCurrentTime: (time) => this.updateState({
+                currentTime: time
+            }),
+            handleClick: (e) => this.handleClick(e)
+        }
+
+        const VideoContext = this.props.Context;
 
         return (
-            <>
+            <VideoContext.Provider value={this.externalAPI}>
                 {(playerProps.url) && (
                     <ReactPlayer {...playerProps}/>
                 )}
-                <Layer style={{width: '100%', height: '100%', top: 0, left: 0}} className="video-overlay" onClick={this.handleClick}>
-                    {this.props.children}
-                </Layer>
-                <Layer style={{
-                    width: '100%',
-                    height: 42,
-                    left: 0,
-                    bottom: 0
-                }} className="video-controls">
-                    <Layer
-                        style={{
-                            width: 30,
-                            height: 30
-                        }}
-                        className="video-controls-button toggle-playback"
-                        onClick={() => this.togglePlayback(true)}
-                    >
-                        <CircularProgressbarWithChildren value={this.state.played * 100} background backgroundPadding={2}>
-                            {(this.state.playing) ? (
-                                <PauseIcon className="icon pause"/>
-                            ) : (
-                                <PlayIcon className="icon play"/>
-                            )}
-                        </CircularProgressbarWithChildren>
+                {(['vast', 'hosted', 'external'].includes(this.state.assetType)) && (
+                    <Layer style={{width: '100%', height: '100%', top: 0, left: 0}} className={`${classNames.videoOverlay} video-overlay`} onClick={this.handleClick}>
+                        {(this.props.renderOverlay) && (
+                            <>
+                                {this.props.renderOverlay(this.externalAPI)}
+                            </>
+                        )}
                     </Layer>
-                    <Layer
-                        style={{
-                            width: 30,
-                            height: 30
-                        }}
-                        className='video-controls-button toggle-mute'
-                        onClick={() => this.toggleMute(true)}
-                    >
-                        <CircularProgressbarWithChildren value={0} background backgroundPadding={2}>
-                            {(this.state.muted) ? (
-                                <MutedIcon className="icon"/>
-                            ) : (
-                                <UnMutedIcon className="icon"/>
-                            )}
-                        </CircularProgressbarWithChildren>
+                )}
+                {(!this.props.hideControls && ['vast', 'hosted', 'external'].includes(this.state.assetType)) && (
+                    <Layer style={{
+                        width: '100%',
+                        height: 42,
+                        left: 0,
+                        bottom: 0
+                    }} className={`${classNames.videoControls} video-controls`}>
+                        <Layer
+                            style={{
+                                width: 30,
+                                height: 30
+                            }}
+                            className={`${classNames.videoButton} toggle-playback`}
+                            onClick={() => this.togglePlayback(true)}
+                        >
+                            <CircularProgressbarWithChildren value={this.state.played * 100} background backgroundPadding={2}>
+                                {(this.state.playing) ? (
+                                    <PauseIcon className="icon pause"/>
+                                ) : (
+                                    <>
+                                        {(this.state.ended) ? (
+                                            <RestartIcon className="icon restart"/>
+                                        ) : (
+                                            <PlayIcon className="icon play"/>
+                                        )}
+                                    </>
+                                )}
+                            </CircularProgressbarWithChildren>
+                        </Layer>
+                        <Layer
+                            style={{
+                                width: 30,
+                                height: 30
+                            }}
+                            className={`${classNames.videoButton} video-controls-button toggle-mute`}
+                            onClick={() => this.toggleMute(true)}
+                        >
+                            <CircularProgressbarWithChildren value={0} background backgroundPadding={2}>
+                                {(this.state.muted) ? (
+                                    <MutedIcon className="icon"/>
+                                ) : (
+                                    <UnMutedIcon className="icon"/>
+                                )}
+                            </CircularProgressbarWithChildren>
+                        </Layer>
                     </Layer>
-                </Layer>
-                {(!this.state.hasPlayed) && (
-                    <Layer className="video-poster-image" style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={() => this.play(true)}>
+                )}
+                {(!this.state.hasPlayed && ['vast', 'hosted', 'external'].includes(this.state.assetType) && !this.props.hidePoster) && (
+                    <Layer className={`${classNames.videoPosterImage} video-poster-image`} style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={() => this.play(true)}>
                         <PlayIcon/>
                     </Layer>
                 )}
-                {(!this.state.hasPlayed && playerProps.playing && !error) && (
-                    <Layer className="video-loading-icon">
+                {(!this.state.hasPlayed && playerProps.playing && !error && !this.props.hideLoadingIcon) && (
+                    <Layer className={`${classNames.videoButton} ${classNames.videoLoadingIcon} video-loading-icon`}>
                         <LoadingIcon className="icon spinning"/>
                     </Layer>
                 )}
-                {(error) && (
-                    <Layer className="video-loading-icon">
+                {(error && !this.props.hideErrorIcon) && (
+                    <Layer className={`${classNames.videoButton} ${classNames.videoLoadingIcon} video-error-icon`}>
                         <ErrorIcon className="icon"/><span style={{marginLeft: 6, fontSize: 12, top: -4, position: 'relative'}}>{error.code}</span>
                     </Layer>
                 )}
-                {(this.props.endFrame && this.state.ended) && (
-                    <Layer className="video-endframe" style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={() => this.play(true)}>
-                        {this.props.endFrame}
+                {(this.state.ended && (this.props.endFrameImage || this.props.renderEndFrame)) && (
+                    <Layer className={`${classNames.videoEndframe} video-endframe`} style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.endFrameImage} onClick={this.props.onEndFrameClick}>
+                        {(this.props.renderEndFrame) && (
+                            <>
+                                {this.props.renderEndFrame(this.externalAPI)}
+                            </>
+                        )}
                     </Layer>
                 )}
-            </>
+            </VideoContext.Provider>
         )
     }
 }

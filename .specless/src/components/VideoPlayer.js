@@ -1,10 +1,15 @@
 import React from 'react';
 import { Context } from './Context';
 import { Layer } from './Layer';
-import { IoIosPlay as PlayIcon } from 'react-icons/io';
-import { parseVAST } from '@specless/utils';
+import { GenIcon } from 'react-icons/lib';
+import { Component } from './Component';
 
-export class VideoPlayer extends React.Component {
+const PlayIcon = (props) => {
+    return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M128 104.3v303.4c0 6.4 6.5 10.4 11.7 7.2l240.5-151.7c5.1-3.2 5.1-11.1 0-14.3L139.7 97.2c-5.2-3.3-11.7.7-11.7 7.1z"}}]})(props);
+}
+
+export class VideoPlayer extends Component {
+    static Context = React.createContext({});
     static contextType = Context;
     
     trackers = {};
@@ -14,10 +19,11 @@ export class VideoPlayer extends React.Component {
         tracker: null,
         playing: this.props.playing,
         url: this.props.url,
-        trackingId: this.props.trackingId || this.props.url,
-        wrapper: React.createRef(),
+        id: this.props.id,
+        wrapper: this.props.elementRef || React.createRef(),
         vast: null,
         error: null,
+        vastXml: this.props.vastXml
     }
 
     handlePlay = () => {
@@ -26,72 +32,133 @@ export class VideoPlayer extends React.Component {
         })
     }
 
+    loadVAST = (vastSource, mediaType, tracker) => {
+        let src = vastSource;
+        if (vastSource.startsWith('vast://')) {
+            src = vastSource.replace('vast://', 'https://');
+        }
+        return new Promise((resolve) => {
+            this.parseVAST(src, mediaType).then(vast => {
+                if (vast.error) {
+                    tracker.then(tracker => {
+                        tracker.error(vast.error.message, {
+                            code: vast.error.code
+                        })
+                    })
+                }
+
+                this.setState({
+                    vast
+                }, () => {
+                    resolve(vast)
+                })
+            })
+        })
+    }
+
+    componentDidCatch(err) {
+        this.setState({
+            renderError: err
+        }, () => {
+            this.trackError({
+                code: 'RENDER_ERROR',
+                msg: err.message,
+                caughtByComponent: 'VideoPlayer',
+                caughtById: this.props.trackingName || this.props.id || null
+            })
+        })
+    }
+
     componentDidUpdate(prevProps) {
-        const trackingId = this.props.trackingId || this.props.url;
-        const url = this.props.url;
         const state = {
             url: this.state.url,
             tracker: this.state.tracker,
-            trackingId: this.state.trackingId,
-            playing: this.state.playing
+            playing: this.state.playing,
         }
         let hasChanged = false;
+        let trackingChanged = false;
         
         if (this.props.playing !== prevProps.playing) {
             hasChanged = true;
             state.playing = this.props.playing;
         }
         
-        if (url !== state.url) {
+        if (this.props.url !== state.url || this.props.vastXml !== state.vastXml) {
             hasChanged = true;
+            trackingChanged = true;
             state.url = this.props.url;
+            state.vastXML = this.props.vastXml;
+            state.tracker = this.context.api.trackVideo(this.props.trackingName, {
+                url: this.props.url || null,
+                autoplay: this.props.playing
+            });
+            
             if (this.props.url && this.props.url.startsWith('vast://')) {
                 state.vast = null;
-                const vastURL = this.props.url.replace('vast://', 'https://');
-                this.context.api.parseVAST(vastURL, this.props.mediaType).then(vast => {
-                    this.setState({
-                        vast
-                    })
-                })
+                this.loadVAST(this.props.url, this.props.vastMediaTypes, state.tracker);
+            } else if (this.props.vastXml) {
+                this.loadVAST(this.props.vastXML, this.props.vastMediaTypes, state.tracker);
             }
-        }
-
-        if (trackingId !== state.trackingId) {
-            hasChanged = true;
-            state.trackingId = trackingId;
-            state.tracker = this.context.api.trackVideo(trackingId)
         }
         
         if (hasChanged) {
-            this.setState(state);
+            if (trackingChanged) {
+                state.tracker.then((tracker, id) => {
+                    state.id = id;
+                    this.setState(state);
+                })
+            } else {
+                this.setState(state);
+            }
         }
     }
 
     componentDidMount() {
         const url = `${this.context.constants.templateLibraryRoot}/assets/specless.VideoPlayer.js`;
+        const tracker = this.context.api.trackVideo(this.props.trackingName, {
+            url: this.props.url || null,
+            autoplay: this.props.playing
+        });
+        
+        tracker.then((tracker, id) => {
+            this.setState({
+                id: id
+            })
+        })
+
         import(/* webpackIgnore: true */url).then(mod => {
             this.setState({
                 Player: mod.default,
-                tracker: this.context.api.trackVideo(this.state.trackingId)
+                tracker: tracker
             })
         });
+
         if (this.props.url && this.props.url.startsWith('vast://')) {
-            const vastURL = this.props.url.replace('vast://', 'https://');
-            this.context.api.parseVAST(vastURL, this.props.mediaType).then(vast => {
-                this.setState({
-                    vast: vast
-                })
-            })
+            this.loadVAST(this.props.url, this.props.vastMediaTypes, tracker);
+        } else if (this.props.vastXml) {
+            this.loadVAST(this.props.vastXML, this.props.vastMediaTypes, tracker);
         }
     }
 
     render() {
+
+        if (this.state.renderError || this.props.hidden) {
+            return <></>
+        }
+
         const Player = this.state.Player;
 
         const styles = this.context.api.useStyles({
             'video-player-wrapper': {
                 overflow: 'hidden',
-                backgroundColor: '#000',
+                boxSizing: 'border-box',
+                backgroundColor: (props) => {
+                    if (props.style && (props.style.background || props.style.backgroundColor)) {
+                        return props.style.background || props.style.backgroundColor
+                    } else {
+                        return '#000'
+                    }
+                },
                 '@global': {
                     '.video-poster-image img': {
                         objectFit: 'cover'
@@ -101,7 +168,13 @@ export class VideoPlayer extends React.Component {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        color: '#fff',
+                        color: (props) => {
+                            if (props.style && props.style.color) {
+                                return props.style.color
+                            } else {
+                                return '#fff'
+                            }
+                        },
                         fontSize: 40,
                         backgroundColor: 'rgba(102, 102, 102,0.35)',
                         padding: '9px 7px 9px 11px',
@@ -113,10 +186,10 @@ export class VideoPlayer extends React.Component {
                     }
                 }
             }
-        })
+        }, this.props)
 
         const wrapperProps = {
-            style: this.props.style,
+            style: this.props.style || {},
             onHover: this.props.onHover,
             onMouseEnter: this.props.onMouseEnter,
             onMouseLeave: this.props.onMouseLeave,
@@ -130,25 +203,32 @@ export class VideoPlayer extends React.Component {
         }
 
         const playerProps = Object.assign({}, this.props);
+        delete playerProps.style;
         playerProps.playing = this.state.playing;
         playerProps.url = this.state.url;
-        playerProps.trackingId = this.state.trackingId;
+        playerProps.id = this.state.id;
         playerProps.vast = this.state.vast;
+        playerProps.backgroundColor = wrapperProps.style.backgroundColor || wrapperProps.style.background;
+        playerProps.controlsColor = wrapperProps.style.color;
 
 
         if (!Player) {
             return (
                 <Layer {...wrapperProps} elementRef={this.state.wrapper}>
-                    <Layer className="video-poster-image" style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={this.handlePlay}>
-                        <PlayIcon/>
-                    </Layer>
+                    {this.renderStyleSheet()}
+                    {(!this.props.hidePoster) && (
+                        <Layer className="video-poster-image" style={{width: '100%', height: '100%', top: 0, left: 0}} image={this.props.posterImage} onClick={this.handlePlay}>
+                            <PlayIcon/>
+                        </Layer>
+                    )}
                 </Layer>
             )
         }
         
         return (
             <Layer {...wrapperProps} elementRef={this.state.wrapper}>
-                <Player {...playerProps} context={this.context} tracker={this.state.tracker} wrapper={this.state.wrapper} ref={this.props.playerRef} error={this.state.error}/>
+                {this.renderStyleSheet()}
+                <Player {...playerProps} context={this.context} tracker={this.state.tracker} wrapper={this.state.wrapper} ref={this.props.playerRef} error={this.state.error} Context={VideoPlayer.Context}/>
             </Layer>
         )
     }

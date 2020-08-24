@@ -257,7 +257,8 @@ export default ({
                 resolve({
                     error: {
                         code: 100,
-                        message: error.message
+                        message: 'Error requesting VAST source',
+                        details: error.message
                     },
                     ...emptyResponse
                 })
@@ -273,10 +274,12 @@ export default ({
                 const parsedVAST = parseResponse(vast, mediaTypes);
                 resolve(parsedVAST);
             }).catch(err => {
+                console.log(err.message);
                 resolve({
                     error: {
                         code: 100,
-                        message: err.message
+                        message: 'Error requesting VAST source',
+                        details: err.message
                     },
                     ...emptyResponse
                 })
@@ -290,8 +293,9 @@ export default ({
                 resolve({
                     error: {
                         code: 100,
-                        message: err.message
-                    }, 
+                        message: 'Error parsing VAST XML',
+                        details: err.message
+                    },
                     ...emptyResponse
                 })
             })

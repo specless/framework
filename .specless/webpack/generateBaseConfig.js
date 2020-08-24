@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
 const GenerateSSRPlugin = require('./plugins/GenerateSSR');
 const SocketRelay = require('./plugins/SocketRelay');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
     MODULES,
     DYNAMIC_MODULES,
@@ -98,6 +99,12 @@ module.exports = (process, env, args) => {
         config.plugins.push(new SocketRelay({
             process
         }));
+    } else {
+        config.plugins.push(new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: `stats.${process}.html`,
+            openAnalyzer: false
+        }))
     }
 
     config.module.rules.push({

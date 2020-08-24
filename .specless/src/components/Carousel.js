@@ -36,6 +36,10 @@ class CarouselComponent extends React.Component {
         delete styleProps.shadowBlur;
         delete styleProps.shadowColor;
 
+        if (this.props.hidden) {
+            return <></>
+        }
+
         if (CarouselComponent) {
             el = <CarouselComponent context={this.context} {...this.props} ref={this.props.carouselRef}/>
         } else {

@@ -25,7 +25,8 @@ const publicApiMethods = [
     'trackVideo',
     'createExit',
     'onLifespanEvent',
-    'parseVAST'
+    'parseVAST',
+    'trackError'
 ]
 
 const defaultPanelState = {
@@ -152,14 +153,27 @@ export class Controller extends React.Component {
         })
     }
 
-    trackVideo = (id) => {
+    trackError = (data) => {
+        this.connectionPromise.then(csf => {
+            csf.lifespan.mark({
+                name: 'error',
+                data: data || {}
+            })
+        })
+    }
+
+    trackVideo = (id, data) => {
         return new Promise((resolve, reject) => {
             if (this.videoTrackers[id]) {
-                resolve(this.videoTrackers[id])
+                resolve(this.videoTrackers[id], id)
             } else {
                 this.connectionPromise.then(csf => {
-                    this.videoTrackers[id] = csf.trackVideo(id);
-                    resolve(this.videoTrackers[id]);
+                    if (!id) {
+                        id = `Video ${Object.keys(this.videoTrackers).length + 1}`
+                    }
+                    const tracker = csf.trackVideo(id, null, data);
+                    this.videoTrackers[id] = tracker;
+                    resolve(tracker, id);
                 })
             }
         })
@@ -309,8 +323,6 @@ export class Controller extends React.Component {
         })
     }
 
-    
-
     handleResize = () => {
         const { panel } = this.state;
         const width = window.innerWidth;
@@ -335,10 +347,16 @@ export class Controller extends React.Component {
     }
 
     componentDidCatch(err) {
-        this.error(`Uncaught Error: ${err.message}`);
-        this.trigger('panelError', err);
         this.updatePanel({
-            error: err
+            error: err,
+        }, true, () => {
+            this.trackError({
+                code: 'RENDER_ERROR',
+                msg: err.message,
+                caughtBy: 'Controller',
+                caughById: this.state.panel.id
+            })
+            this.trigger('panelError', err);
         })
     }
 
@@ -387,11 +405,6 @@ export class Controller extends React.Component {
             window.addEventListener('load', () => {
                 this.resolveLoad()
             })
-            // window.addEventListener('error', (err) => {
-            //     console.error(err);
-            // }, {
-            //     capture: true
-            // });
         } else {
             this.onceConnected(() => {
                 this.resolveLoad()
@@ -571,6 +584,10 @@ export class Controller extends React.Component {
             layout,
             _namespace: this.props._namespace,
             ref: this.panelRef
+        }
+
+        if (this.state.panel.error) {
+            return <>Error</>
         }
 
         if (!panel.ssr) {
