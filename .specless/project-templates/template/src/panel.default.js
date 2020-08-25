@@ -77,7 +77,7 @@ export const Panel = () => {
     }
 
     return (
-        <Body onCLick={() => handleClickThrough()} className="body" stylesheet={stylesheet}>
+        <Body onClick={() => handleClickThrough()} className="body" stylesheet={stylesheet}>
             <Wrapper>
                 <Layer image={url(logoUrl)} style={logoStyles[layout.id]}/>
                 <Layer style={headlineStyles}>{headline}</Layer>

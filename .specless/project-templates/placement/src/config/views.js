@@ -1,4 +1,4 @@
-module.exports = [
+export const views = [
     {
         key: 'responsive',
         title: 'Responsive',

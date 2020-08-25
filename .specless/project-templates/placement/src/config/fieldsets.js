@@ -1,4 +1,4 @@
-const general = {
+export const fieldsets = {
     key: 'general',
     title: 'General Settings',
     schema: {},
