@@ -1,6 +1,6 @@
 import { getLayout as _getLayout } from './../../utils/getLayout.js';
 import { createUseStyles as _createUseStyles } from 'react-jss';
-import { parseVAST as _parseVAST } from './../../utils/parseVAST.js';
+import { parseVAST as _parseVAST } from './../../utils/parseVast.js';
 const utils = {
     getLayout: _getLayout,
     createUseStyles: _createUseStyles,
