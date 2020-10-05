@@ -9,7 +9,8 @@ class JsonSchemaData {
     }
 
     apply(compiler) {
-        compiler.hooks.done.tapAsync('JsonSchemaData', ({compilation}, callback) => {
+
+        compiler.hooks.emit.tapAsync('JsonSchemaData', (compilation, callback) => {
             const data = importFresh(DEMO_DATA);
             const dataJSON = JSON.stringify(data);
             if (compilation.assets[META_DATA_OUTPUT_NAME]) {
@@ -23,7 +24,7 @@ class JsonSchemaData {
                             const valid = ajv.validate(schema, data[fieldset.key]);
                             if (!valid) {
                                 ajv.errors.forEach(error => {
-                                    const errorMessage = `'/meta/data.json':\nDemo data validation failed. The value for the property '${error.dataPath}' in the fieldset '${fieldset.key}' is not valid.\n'${error.dataPath}' ${error.message}.`;
+                                    const errorMessage = `'${DEMO_DATA}':\nDemo data validation failed. The value for the property '${error.dataPath}' in the fieldset '${fieldset.key}' is not valid.\n'${error.dataPath}' ${error.message}.`;
                                     compilation.errors.push(new Error(errorMessage))
                                 })
                             }
