@@ -1,10 +1,10 @@
-export const fieldsets = {
+const general = {
     key: 'general',
     title: 'General Settings',
     schema: {},
     uiSchema: {}
 }
 
-module.exports = [
+export const fieldsets = [
     general
 ]
