@@ -90,7 +90,7 @@
     "@timelaps/object": "1.0.23",
     "@timelaps/string": "1.0.8",
     "animation-frame-delta": "^2.4.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bezier-easing": "^2.1.0",
     "emotion": "^10.0.27",
     "es6-tween": "^5.5.11",
